@@ -37,41 +37,52 @@ const inventoryValidationSchema = Yup.object().shape({
 });
 
 const Inventory = () => {
-    const categories = [{
-        value: 'PC', label: 'PC',
-    }, {
-        value: 'Phone', label: 'Phone',
-    }, {
-        value: 'Furniture', label: 'Furniture',
-    }, {
-        value: 'Cars', label: 'Cars',
-    },];
+    const categories = [
+        {
+            value: 'PC', label: 'PC',
+        },
+        {
+            value: 'Phone', label: 'Phone',
+        },
+        {
+            value: 'Furniture', label: 'Furniture',
+        },
+        {
+            value: 'Car', label: 'Car',
+        },
+        {
+            value: 'Building', label: 'Building',
+        },
+        {
+            value: 'Other', label: 'Other',
+        },
+    ];
     const [officersLoading, setOfficersLoading] = useState(true);
     const [citiesLoading, setCitiesLoading] = useState(true);
     const [roomNumbersLoading, setRoomNumbersLoading] = useState(true);
-
     const [officers, setOfficers] = useState([]);
     const [cities, setCities] = useState([]);
-    const [city, setCity] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
     const [roomNumbers, setRoomNumbers] = useState([]);
+
     const handleCityChange = (event) => {
         const roomNumbersFromBackend = [];
-        setCity(event.target.value);
+        setSelectedCity(event.target.value);
         getRoomNumbers(event.target.value)
             .then(({data}) => {
-                data.map((r) => {
+                data.map((rm) => {
                     roomNumbersFromBackend.push({
-                        value: `${r}`,
-                        label: `${r}`,
+                        value: `${rm}`,
+                        label: `${rm}`,
                     })
                 });
                 setRoomNumbers(roomNumbersFromBackend);
             })
             .finally(() => {
                 setRoomNumbersLoading(false);
+
                 console.log('roomNumbers', roomNumbers);
             });
-
     };
 
     useEffect(() => {
@@ -105,11 +116,10 @@ const Inventory = () => {
             });
     }, []);
 
-
     return (
         <>
             {
-                officersLoading && citiesLoading && roomNumbersLoading ? <CircularProgress/> :
+                officersLoading || citiesLoading ? <CircularProgress/> :
                     <Formik
                         initialValues={{
                             inventoryNumber: '',
@@ -126,6 +136,7 @@ const Inventory = () => {
                         }}
 
                         onSubmit={(values, helpers) => {
+                            values.city = selectedCity;
                             console.log('values', values);
                             console.log('helpers', helpers);
 
@@ -165,7 +176,7 @@ const Inventory = () => {
                                         sx={{minWidth: '200px'}}
                                         id="city"
                                         name="city"
-                                        value={city}
+                                        value={selectedCity}
                                         as={TextField}
                                         select
                                         label="Select city"
