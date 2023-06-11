@@ -3,6 +3,7 @@ import {getInventories} from "../api/inventoryApi";
 import {CircularProgress, Paper, Table, TableBody, TableContainer, TableHead, TableRow} from "@mui/material";
 import TableCell, {tableCellClasses} from '@mui/material/TableCell';
 import styled from "@emotion/styled";
+import {NavLink} from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -62,7 +63,11 @@ const Inventories = () => {
                             <TableBody>
                                 {inventories.map((inventory) => (
                                     <StyledTableRow key={inventory.id}>
-                                        <StyledTableCell>{inventory.inventoryNumber}</StyledTableCell>
+                                        <StyledTableCell component="th" scope="row">
+                                            <NavLink to={`/inventories/id/${inventory.id}`}>
+                                            {inventory.inventoryNumber}
+                                            </NavLink>
+                                        </StyledTableCell>
                                         <StyledTableCell>{inventory.cardNumber}</StyledTableCell>
                                         <StyledTableCell sx={{maxWidth: 300}}>{inventory.description}</StyledTableCell>
                                         <StyledTableCell>{inventory.category}</StyledTableCell>

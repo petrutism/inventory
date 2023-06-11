@@ -1,42 +1,56 @@
 import {Field, Form, Formik} from "formik";
-import {Button, CircularProgress, List, Stack, Typography} from "@mui/material";
+import {Alert, Button, CircularProgress, Select, Stack, Typography} from "@mui/material";
 import * as Yup from 'yup';
 import FormTextInput from "./FormTextInput";
 import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import * as React from "react";
 import {useEffect, useState} from "react";
-import {getCities, getOfficers, getRoomNumbers} from "../api/inventoryApi";
+import {
+    getCities,
+    getEmployees,
+    getOfficers,
+    getRoomNumbers,
+    getRooms,
+    getInventoryById,
+    saveInventory,
+    updateInventory
+} from "../api/inventoryApi";
+import {useNavigate, useParams} from "react-router-dom";
 
 const inventoryValidationSchema = Yup.object().shape({
     inventoryNumber: Yup.string()
         .min(5, 'Inventory number must be longer than 5')
         .max(20, 'Inventory number must be shorter than 20')
-        .required('Inventory number is required'), cardNumber: Yup.string()
+        .required('Inventory number is required'),
+    cardNumber: Yup.string()
         .min(5, 'Card number must be longer than 5')
         .max(20, 'Card number must be shorter than 20')
-        .required('Card number is required'), description: Yup.string()
+        .required('Card number is required'),
+    description: Yup.string()
         .min(5, 'Description must be longer than 5')
         .max(100, 'Description must be shorter than 100')
-        .required('Description is required'), room: Yup.number()
-        .typeError('Room number must be a number')
-        .positive('Room number must be bigger than 0')
-        .required('Room number is required'), priceBefore: Yup.number()
+        .required('Description is required'),
+    priceBefore: Yup.number()
         .typeError('Price must be a number')
         .positive('Price must be bigger than 0')
-        .required('Price is required'), priceNow: Yup.number()
+        .required('Price is required'),
+    priceNow: Yup.number()
         .typeError('Price must be a number')
         .positive('Price must be bigger than 0')
-        .required('Price is required'), employeesName: Yup.string()
+        .required('Price is required'),
+    employeesName: Yup.string()
         .min(5, 'Employees name must be longer than 2')
         .max(10, 'Employees surname must be shorter than 10')
-        .required('Employees name is required'), employeesSurname: Yup.string()
+        .required('Employees name is required'),
+    employeesSurname: Yup.string()
         .min(5, 'Employees surname must be longer than 2')
         .max(10, 'Employees surname must be shorter than 20')
         .required('Employees surname is required')
 });
 
 const Inventory = () => {
+    const [notification, setNotification] = useState({isVisible: false});
     const categories = [
         {
             value: 'PC', label: 'PC',
@@ -57,17 +71,109 @@ const Inventory = () => {
             value: 'Other', label: 'Other',
         },
     ];
+
     const [officersLoading, setOfficersLoading] = useState(true);
     const [citiesLoading, setCitiesLoading] = useState(true);
+    const [roomsLoading, setRoomsLoading] = useState(true);
     const [roomNumbersLoading, setRoomNumbersLoading] = useState(true);
+    const [rooms, setRooms] = useState([]);
     const [officers, setOfficers] = useState([]);
     const [cities, setCities] = useState([]);
     const [selectedCity, setSelectedCity] = useState('');
     const [roomNumbers, setRoomNumbers] = useState([]);
+    const [employees, setEmployees] = useState([]);
+    const [employeesLoading, setEmployeesLoading] = useState(true);
+    const [inventoryLoading, setInventoryLoading] = useState(true);
+    const navigation = useNavigate();
+    const {inventoryId} = useParams();
+    const [inventory, setInventory] = useState({
+        inventoryNumber: '',
+        cardNumber: '',
+        description: '',
+        category: '',
+        room: '',
+        officer: '',
+        employee: '',
+        priceBefore: '',
+        priceNow: '',
+    });
+
+    useEffect(() => {
+        if (!inventoryId) {
+            setInventoryLoading(false);
+
+            return;
+        }
+
+        getInventoryById(inventoryId)
+            .then(({data}) => setInventory(data))
+            .catch((err) => console.log(err))
+            .finally(() => setInventoryLoading(false));
+
+    }, []);
+
+    const onFormSubmit = (values, helper) => {
+        values.city = selectedCity;
+
+        rooms.forEach(r => {
+            if (r.city === selectedCity && r.roomNumber === values.selectedRoom) {
+                values.room = r;
+            }
+        });
+        employees.forEach(e => {
+            if (e.name === values.employeesName && e.surname === values.employeesSurname) {
+                values.employee = e;
+            }
+        });
+
+        console.log('values', values);
+        console.log('helpers', helper);
+
+        const inventoryFromForm = {
+            inventoryNumber: values.inventoryNumber,
+            cardNumber: values.cardNumber,
+            description: values.description,
+            category: values.category,
+            room: values.room,
+            officer: values.officer,
+            employee: values.employee,
+            priceBefore: values.priceBefore,
+            priceNow: values.priceNow
+        };
+        if (inventoryId) {
+            onInventoryUpdate(inventoryFromForm, helper);
+            return;
+        }
+
+        onCreateInventory(inventoryFromForm, helper);
+    }
+    const onCreateInventory = (inventoryFromForm, helper) => {
+        saveInventory(inventoryFromForm)
+            .then((response) => {
+                helper.resetForm();
+                setNotification({isVisible: true, message: 'Inventory created successfully', severity: 'success'});
+            })
+            .catch((error) => {
+                setNotification({isVisible: true, message: 'Inventory cannot be created', severity: 'error'});
+                console.log(error);
+            })
+            .finally(() => helper.setSubmitting(false));
+    }
+    const onInventoryUpdate = (inventoryFromForm, helper) => {
+        updateInventory(inventoryFromForm, inventoryId)
+            .then(() => navigation(`/inventories/id/${inventoryId}`))
+            .catch((error) => setNotification({
+                isVisible: true,
+                message: 'Inventory cannot be updated',
+                severity: 'error'
+            }))
+            .finally(() => helper.setSubmitting(false));
+    }
 
     const handleCityChange = (event) => {
         const roomNumbersFromBackend = [];
         setSelectedCity(event.target.value);
+
         getRoomNumbers(event.target.value)
             .then(({data}) => {
                 data.map((rm) => {
@@ -80,7 +186,6 @@ const Inventory = () => {
             })
             .finally(() => {
                 setRoomNumbersLoading(false);
-
                 console.log('roomNumbers', roomNumbers);
             });
     };
@@ -116,126 +221,149 @@ const Inventory = () => {
             });
     }, []);
 
+    useEffect(() => {
+        getRooms()
+            .then(({data}) => {
+                setRooms(data);
+            })
+            .catch((error) => console.log('rooms error', error))
+            .finally(() => {
+                setRoomsLoading(false);
+                console.log('rooms', rooms);
+            });
+    }, []);
+
+    useEffect(() => {
+        getEmployees()
+            .then(({data}) => {
+                setEmployees(data);
+            })
+            .catch((error) => console.log('employees error', error))
+            .finally(() => {
+                setEmployeesLoading(false);
+                console.log('employees', employees);
+            });
+    }, []);
+
     return (
         <>
             {
-                officersLoading || citiesLoading ? <CircularProgress/> :
+                officersLoading || citiesLoading || roomsLoading || inventoryLoading ? <CircularProgress/> :
                     <Formik
                         initialValues={{
-                            inventoryNumber: '',
-                            cardNumber: '',
-                            description: '',
-                            category: '',
-                            city: '',
-                            room: '',
-                            officer: '',
-                            employeesName: '',
-                            employeesSurname: '',
-                            priceBefore: '',
-                            priceNow: ''
+                            inventoryNumber: inventory.inventoryNumber,
+                            cardNumber: inventory.cardNumber,
+                            description: inventory.description,
+                            category: inventory.category,
+                            city: inventory.room.city,
+                            room: inventory.room,
+                            selectedRoom: inventory.room.roomNumber,
+                            officer: inventory.officer,
+                            employeesName: inventory.employee.name,
+                            employeesSurname: inventory.employee.surname,
+                            employee: inventory.employee,
+                            priceBefore: inventory.priceBefore,
+                            priceNow: inventory.priceNow
                         }}
 
-                        onSubmit={(values, helpers) => {
-                            values.city = selectedCity;
-                            console.log('values', values);
-                            console.log('helpers', helpers);
+                        onSubmit={onFormSubmit}
 
-                            setTimeout(() => {
-                                helpers.setSubmitting(false);
-                                helpers.resetForm();
-                            }, 1000);
-                        }}
                         validationSchema={inventoryValidationSchema}
                     >
-                        {props => (<Form>
-                            <Stack spacing={1} direction="column">
-                                <Typography variant="h5">Create inventory:</Typography>
-                                <FormTextInput error={props.touched.inventoryNumber && !!props.errors.inventoryNumber}
-                                               name="inventoryNumber"
-                                               label="Inventory Number"/>
-                                <FormTextInput error={props.touched.cardNumber && !!props.errors.cardNumber}
-                                               name="cardNumber"
-                                               label="Inventory card number"/>
-                                <FormTextInput error={props.touched.description && !!props.errors.description}
-                                               name="description"
-                                               label="Inventory description"/>
-                                <Field
-                                    id="category"
-                                    name="category"
-                                    as={TextField}
-                                    select
-                                    label="Select category"
-                                >
-                                    {categories.map((category) => (
-                                        <MenuItem key={category.value} value={category.value}>
-                                            {category.label}
-                                        </MenuItem>))}
-                                </Field>
-                                <Stack spacing={1} direction="row">
+                        {props => (
+                            <Form>
+                                <Stack spacing={1} direction="column">
+                                    {notification.isVisible &&
+                                        <Alert severity={notification.severity}>{notification.message}</Alert>}
+                                    <Typography
+                                        variant="h5">{inventoryId ? 'Update Inventory:' : 'Create Inventory:'}</Typography>
+                                    <FormTextInput
+                                        error={props.touched.inventoryNumber && !!props.errors.inventoryNumber}
+                                        name="inventoryNumber"
+                                        label="Inventory Number"/>
+                                    <FormTextInput error={props.touched.cardNumber && !!props.errors.cardNumber}
+                                                   name="cardNumber"
+                                                   label="Inventory card number"/>
+                                    <FormTextInput error={props.touched.description && !!props.errors.description}
+                                                   name="description"
+                                                   label="Inventory description"/>
                                     <Field
-                                        sx={{minWidth: '200px'}}
-                                        id="city"
-                                        name="city"
-                                        value={selectedCity}
+                                        id="category"
+                                        name="category"
                                         as={TextField}
                                         select
-                                        label="Select city"
-                                        onChange={handleCityChange}
+                                        label="Select category"
                                     >
-                                        {cities.map((c) => (<MenuItem key={c.value} value={c.value}>
-                                            {c.label}
-                                        </MenuItem>))}
-                                    </Field>
-
-                                    <Field
-                                        sx={{minWidth: '200px'}}
-                                        id="room"
-                                        name="room"
-                                        as={TextField}
-                                        select
-                                        label="Select room"
-                                    >
-                                        {roomNumbers.map((roomNumber) => (
-                                            <MenuItem key={roomNumber.value} value={roomNumber.value}>
-                                                {roomNumber.label}
+                                        {categories.map((category) => (
+                                            <MenuItem key={category.value} value={category.value}>
+                                                {category.label}
                                             </MenuItem>))}
                                     </Field>
-                                </Stack>
-                                <Field
-                                    id="officer"
-                                    name="officer"
-                                    as={TextField}
-                                    select
-                                    label="Select officer"
-                                >
-                                    {officers.map((officer) => (<MenuItem key={officer.id} value={officer}>
-                                        {officer.name} {officer.surname}
-                                    </MenuItem>))}
-                                </Field>
-                                <Stack spacing={1} direction="row">
-                                    <FormTextInput error={props.touched.employeesName && !!props.errors.employeesName}
-                                                   name="employeesName"
-                                                   label="Employees name"/>
-                                    <FormTextInput
-                                        error={props.touched.employeesSurname && !!props.errors.employeesSurname}
-                                        name="employeesSurname"
-                                        label="Employees surname"/>
-                                </Stack>
-                                <Stack spacing={1} direction="row">
-                                    <FormTextInput error={props.touched.priceBefore && !!props.errors.priceBefore}
-                                                   name="priceBefore"
-                                                   label="Inventory price before using"/>
+                                    <Stack spacing={1} direction="row">
+                                        <Field
+                                            sx={{minWidth: '200px'}}
+                                            id="city"
+                                            name="city"
+                                            value={selectedCity}
+                                            as={TextField}
+                                            select
+                                            label="Select city"
+                                            onChange={handleCityChange}
+                                        >
+                                            {cities.map((c) => (<MenuItem key={c.value} value={c.value}>
+                                                {c.label}
+                                            </MenuItem>))}
+                                        </Field>
 
-                                    <FormTextInput error={props.touched.priceNow && !!props.errors.priceNow}
-                                                   name="priceNow"
-                                                   label="Inventory price at the end of use"/>
+                                        <Field
+                                            sx={{minWidth: '200px'}}
+                                            id="selectedRoom"
+                                            name="selectedRoom"
+                                            as={Select}
+                                            label="Select room"
+                                        >
+                                            {roomNumbers.map((roomNumber) => (
+                                                <MenuItem key={roomNumber.value} value={roomNumber.value}>
+                                                    {roomNumber.label}
+                                                </MenuItem>))}
+                                        </Field>
+                                    </Stack>
+                                    <Field
+                                        id="officer"
+                                        name="officer"
+                                        as={Select}
+                                        label="Select officer"
+                                    >
+                                        {officers.map((officer) => (<MenuItem key={officer.id} value={officer}>
+                                            {officer.name} {officer.surname}
+                                        </MenuItem>))}
+                                    </Field>
+                                    <Stack spacing={1} direction="row">
+                                        <FormTextInput
+                                            error={props.touched.employeesName && !!props.errors.employeesName}
+                                            name="employeesName"
+                                            label="Employees name"/>
+                                        <FormTextInput
+                                            error={props.touched.employeesSurname && !!props.errors.employeesSurname}
+                                            name="employeesSurname"
+                                            label="Employees surname"/>
+                                    </Stack>
+                                    <Stack spacing={1} direction="row">
+                                        <FormTextInput error={props.touched.priceBefore && !!props.errors.priceBefore}
+                                                       name="priceBefore"
+                                                       label="Inventory price before using"/>
+
+                                        <FormTextInput error={props.touched.priceNow && !!props.errors.priceNow}
+                                                       name="priceNow"
+                                                       label="Inventory price at the end of use"/>
+                                    </Stack>
                                 </Stack>
-                            </Stack>
-                            <Typography sx={{textAlign: 'right', mt: 2}}>
-                                {props.isSubmitting ? <CircularProgress/> :
-                                    <Button variant="outlined" type="submit">Save inventory</Button>}
-                            </Typography>
-                        </Form>)}
+                                <Typography sx={{textAlign: 'right', mt: 2}}>
+                                    {props.isSubmitting ? <CircularProgress/> :
+                                        <Button variant="outlined"
+                                                type="submit">{inventoryId ? 'Update inventory' : 'Create inventory'}</Button>}
+                                </Typography>
+                            </Form>)}
                     </Formik>
             }
         </>

@@ -49,4 +49,10 @@ public class ExceptionAdvice {
     public ExceptionResponse handleException(Exception e) {
         return new ExceptionResponse(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+        
+    @ExceptionHandler(InventoryDoesNotExistByIdRuntimeException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ExceptionResponse handleInventoryDoesNotExistByIdRuntimeException (InventoryDoesNotExistByIdRuntimeException ex){
+        return new ExceptionResponse(String.format("Officer does not exist with this id: %s", ex.getId()), HttpStatus.NOT_FOUND);
+    }
 }

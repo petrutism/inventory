@@ -5,6 +5,7 @@ import Inventories from "../page/Inventories";
 import Employees from "../page/Employees";
 import Inventory from "../forms/Inventory";
 import Rooms from "../page/Rooms";
+import InventoryDetails from "../page/InventoryDetails";
 
 const Content = () => {
     return (
@@ -19,7 +20,10 @@ const Content = () => {
                        }}>
                 <Routes>
                     <Route path="/" element={<Inventories/>}/>
-                    <Route path="/inventories/create" element={<Inventory/>}/>
+                    <Route path="/inventories/create" element={<Inventory key="create"/>}/>
+                    <Route path="/inventories/id/:inventoryId/update" element={<Inventory key="update"/>}/>
+                    <Route path="/inventories/id/:inventoryId" element={<InventoryDetails/>}/>
+
                     <Route path="/employees/create" element={<Employee/>}/>
                     <Route path="/employees" element={<Employees/>}/>
                     <Route path="/rooms" element={<Rooms/>}/>
