@@ -41,4 +41,10 @@ public class InventoryController {
         inventoryFromForm.setId(id);
         inventoryService.updateInventory(inventoryFromForm);
     }
+
+    @DeleteMapping(value = INVENTORY_BY_ID)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteInventory(@PathVariable(INVENTORY_ID) UUID inventoryId){
+        inventoryService.deleteInventory(inventoryId);
+    }
 }

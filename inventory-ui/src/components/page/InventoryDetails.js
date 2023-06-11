@@ -2,6 +2,7 @@ import {NavLink, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {getInventoryById} from "../api/inventoryApi";
 import {Button, CircularProgress, Grid, Paper, Typography} from "@mui/material";
+import DeleteInventory from "../DeleteInventory";
 
 const InventoryDetailsPage = () => {
     const {inventoryId} = useParams();
@@ -86,8 +87,7 @@ const InventoryDetailsPage = () => {
                                                     component={NavLink}>Update inventory</Button>
                                         </Grid>
                                         <Grid item xs={9}>
-                                            {/*<DeleteInventory inventoryId={inventory.id}/>*/}
-                                            Delete
+                                            <DeleteInventory inventoryId={inventory.id}/>
                                         </Grid>
                                     </Grid>
                                 </Grid>

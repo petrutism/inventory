@@ -8,6 +8,8 @@ const getInventories = () => HTTP.get('/inventories');
 const saveInventory = (inventoryFromForm) => HTTP.post('/inventories', inventoryFromForm);
 const updateInventory = (inventoryFromForm, inventoryId) => HTTP.put(`/inventories/id/${inventoryId}`, inventoryFromForm);
 
+const deleteInventory = (inventoryId) => HTTP.delete(`/inventories/id/${inventoryId}`);
+
 const getInventoryById = (inventoryId) => HTTP.get(`/inventories/id/${inventoryId}`);
 const getCities = () => HTTP.get('/rooms/cities');
 const getRoomNumbers = (city) => HTTP.get(`/rooms/${city}/roomNumbers`);
@@ -22,5 +24,6 @@ export {
     getRoomNumbers,
     saveInventory,
     getInventoryById,
-    updateInventory
+    updateInventory,
+    deleteInventory
 }

@@ -40,4 +40,8 @@ public class InventoryService {
     public void updateInventory(Inventory inventory){
         inventoryRepository.save(InventoryEntity.convert(inventory));
     }
+
+    public void deleteInventory (UUID id){
+        inventoryRepository.deleteById(id);
+    }
 }
