@@ -6,6 +6,7 @@ import Employees from "../page/Employees";
 import Inventory from "../forms/Inventory";
 import Rooms from "../page/Rooms";
 import InventoryDetails from "../page/InventoryDetails";
+import EmployeeDetails from "../page/EmployeeDetails";
 
 const Content = () => {
     return (
@@ -24,8 +25,11 @@ const Content = () => {
                     <Route path="/inventories/id/:inventoryId/update" element={<Inventory key="update"/>}/>
                     <Route path="/inventories/id/:inventoryId" element={<InventoryDetails/>}/>
 
-                    <Route path="/employees/create" element={<Employee/>}/>
                     <Route path="/employees" element={<Employees/>}/>
+                    <Route path="/employees/create" element={<Employee key="create"/>}/>
+                    <Route path="/employees/id/:employeeId/update" element={<Employee key="update"/>}/>
+                    <Route path="/employees/id/:employeeId" element={<EmployeeDetails/>}/>
+
                     <Route path="/rooms" element={<Rooms/>}/>
                 </Routes>
             </Container>

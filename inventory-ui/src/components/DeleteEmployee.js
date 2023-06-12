@@ -1,13 +1,13 @@
 import {Button} from "@mui/material";
-import {deleteInventory} from "./api/inventoryApi";
+import {deleteEmployee} from "./api/inventoryApi";
 import {useNavigate} from "react-router-dom";
 
-const DeleteInventory = ({inventoryId}) => {
+const DeleteEmployee = ({employeeId}) => {
 
     const navigation = useNavigate();
 
-    const onDeleteInventory = () => {
-        deleteInventory(inventoryId)
+    const onDeleteEmployee = () => {
+        deleteEmployee(employeeId)
             .then(() => {
                 navigation('/');
             })
@@ -17,8 +17,8 @@ const DeleteInventory = ({inventoryId}) => {
     return (
         <Button variant="outlined"
                 type="button"
-                color="error" onClick={() => onDeleteInventory()}>DELETE INVENTORY</Button>
+                color="error" onClick={() => onDeleteEmployee()}>DELETE EMPLOYEE</Button>
     );
 }
 
-export default DeleteInventory;
+export default DeleteEmployee;

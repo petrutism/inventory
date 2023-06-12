@@ -1,5 +1,5 @@
 import {Field, Form, Formik} from "formik";
-import {Alert, Button, CircularProgress, Select, Stack, Typography} from "@mui/material";
+import {Alert, Button, CircularProgress, Stack, Typography} from "@mui/material";
 import * as Yup from 'yup';
 import FormTextInput from "./FormTextInput";
 import MenuItem from "@mui/material/MenuItem";
@@ -91,9 +91,9 @@ const Inventory = () => {
         cardNumber: '',
         description: '',
         category: '',
-        room: '',
-        officer: '',
-        employee: '',
+        room: {},
+        officer: {},
+        employee: {},
         priceBefore: '',
         priceNow: '',
     });
@@ -319,7 +319,8 @@ const Inventory = () => {
                                             sx={{minWidth: '200px'}}
                                             id="selectedRoom"
                                             name="selectedRoom"
-                                            as={Select}
+                                            as={TextField}
+                                            select
                                             label="Select room"
                                         >
                                             {roomNumbers.map((roomNumber) => (
@@ -331,7 +332,8 @@ const Inventory = () => {
                                     <Field
                                         id="officer"
                                         name="officer"
-                                        as={Select}
+                                        as={TextField}
+                                        select
                                         label="Select officer"
                                     >
                                         {officers.map((officer) => (<MenuItem key={officer.id} value={officer}>
