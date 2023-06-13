@@ -42,9 +42,9 @@ public class OfficerController {
 
     @PutMapping(value = OFFICER_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateOfficer(@RequestBody Officer officer, @PathVariable(OFFICER_ID) UUID id){
-        officer.setId(id);
-        officerService.updateOfficer(officer);
+    public void updateOfficer(@RequestBody Officer officerFromForm, @PathVariable(OFFICER_ID) UUID id){
+        officerFromForm.setId(id);
+        officerService.updateOfficer(officerFromForm);
     }
 
     @DeleteMapping(value = OFFICER_BY_ID)

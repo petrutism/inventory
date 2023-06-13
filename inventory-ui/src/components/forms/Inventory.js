@@ -91,11 +91,18 @@ const Inventory = () => {
         cardNumber: '',
         description: '',
         category: '',
-        room: {},
-        officer: {},
+        room: {
+            city:'',
+            roomNumber:''
+        },
+        officer: {
+            id:'',
+            name:'',
+            surname:''
+        },
         employee: {},
         priceBefore: '',
-        priceNow: '',
+        priceNow: ''
     });
 
     useEffect(() => {
@@ -106,7 +113,12 @@ const Inventory = () => {
         }
 
         getInventoryById(inventoryId)
-            .then(({data}) => setInventory(data))
+            .then(({data}) => {
+                    setInventory(data);
+                    console.log('inventory data test', data);
+                }
+            )
+
             .catch((err) => console.log(err))
             .finally(() => setInventoryLoading(false));
 
@@ -123,6 +135,11 @@ const Inventory = () => {
         employees.forEach(e => {
             if (e.name === values.employeesName && e.surname === values.employeesSurname) {
                 values.employee = e;
+            }
+        });
+        officers.forEach(o => {
+            if (o.id === values.officerId) {
+                values.officer = o;
             }
         });
 
@@ -257,13 +274,14 @@ const Inventory = () => {
                             category: inventory.category,
                             city: inventory.room.city,
                             room: inventory.room,
-                            selectedRoom: inventory.room.roomNumber,
-                            officer: inventory.officer,
                             employeesName: inventory.employee.name,
                             employeesSurname: inventory.employee.surname,
                             employee: inventory.employee,
                             priceBefore: inventory.priceBefore,
-                            priceNow: inventory.priceNow
+                            priceNow: inventory.priceNow,
+                            selectedRoom: inventory.room.roomNumber,
+                            selectedCity: inventory.room.city,
+                            officerId: inventory.officer.id
                         }}
 
                         onSubmit={onFormSubmit}
@@ -330,13 +348,13 @@ const Inventory = () => {
                                         </Field>
                                     </Stack>
                                     <Field
-                                        id="officer"
-                                        name="officer"
+                                        id="officerId"
+                                        name="officerId"
                                         as={TextField}
                                         select
                                         label="Select officer"
                                     >
-                                        {officers.map((officer) => (<MenuItem key={officer.id} value={officer}>
+                                        {officers.map((officer) => (<MenuItem key={officer.id} value={officer.id}>
                                             {officer.name} {officer.surname}
                                         </MenuItem>))}
                                     </Field>

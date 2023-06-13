@@ -37,7 +37,10 @@ const Employee = () => {
     const [employee, setEmployee] = useState({
         name: '',
         surname: '',
-        room: {},
+        room: {
+            city:'',
+            roomNumber:'',
+        },
     });
 
     useEffect(() => {
@@ -160,7 +163,8 @@ const Employee = () => {
                         name: employee.name,
                         surname: employee.surname,
                         city: employee.room.city,
-                        room: employee.room.roomNumber
+                        room: employee.room.roomNumber,
+                        selectedRoom: ''
                     }}
 
                     onSubmit={onFormSubmit}
@@ -204,8 +208,8 @@ const Employee = () => {
                                         label="Select room"
                                     >
                                         {roomNumbers.map((roomNumber) => (
-                                            <MenuItem key={roomNumber.value} value={roomNumber.value}>
-                                                {roomNumber.label}
+                                            <MenuItem key={roomNumber?.value} value={roomNumber?.value}>
+                                                {roomNumber?.value}
                                             </MenuItem>))}
                                     </Field>
                                 </Stack>

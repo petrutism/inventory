@@ -3,6 +3,7 @@ import {NavLink} from "react-router-dom";
 import MenuItem from "./MenuItem";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
 const Header = () => {
 
@@ -31,6 +32,11 @@ const Header = () => {
                     <Tooltip title="Create employee">
                         <IconButton>
                             <MenuItem path="/employees/create" value={<PersonAddIcon/>}/>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Create officer">
+                        <IconButton>
+                            <MenuItem path="/officers/create" value={<PersonAddAltIcon/>}/>
                         </IconButton>
                     </Tooltip>
                 </nav>

@@ -1,5 +1,7 @@
 import {Container} from "@mui/material";
 import Employee from "../forms/Employee";
+import Officer from "../forms/Officer";
+
 import {Route, Routes} from "react-router-dom";
 import Inventories from "../page/Inventories";
 import Employees from "../page/Employees";
@@ -7,6 +9,7 @@ import Inventory from "../forms/Inventory";
 import Rooms from "../page/Rooms";
 import InventoryDetails from "../page/InventoryDetails";
 import EmployeeDetails from "../page/EmployeeDetails";
+import OfficerDetails from "../page/OfficerDetails";
 
 const Content = () => {
     return (
@@ -29,6 +32,10 @@ const Content = () => {
                     <Route path="/employees/create" element={<Employee key="create"/>}/>
                     <Route path="/employees/id/:employeeId/update" element={<Employee key="update"/>}/>
                     <Route path="/employees/id/:employeeId" element={<EmployeeDetails/>}/>
+
+                    <Route path="/officers/create" element={<Officer key="create"/>}/>
+                    <Route path="/officers/id/:officerId/update" element={<Officer key="update"/>}/>
+                    <Route path="/officers/id/:officerId" element={<OfficerDetails/>}/>
 
                     <Route path="/rooms" element={<Rooms/>}/>
                 </Routes>
