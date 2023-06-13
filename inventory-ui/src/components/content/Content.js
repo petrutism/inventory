@@ -5,6 +5,8 @@ import Officer from "../forms/Officer";
 import {Route, Routes} from "react-router-dom";
 import Inventories from "../page/Inventories";
 import Employees from "../page/Employees";
+import Officers from "../page/Officers";
+
 import Inventory from "../forms/Inventory";
 import Rooms from "../page/Rooms";
 import InventoryDetails from "../page/InventoryDetails";
@@ -33,6 +35,7 @@ const Content = () => {
                     <Route path="/employees/id/:employeeId/update" element={<Employee key="update"/>}/>
                     <Route path="/employees/id/:employeeId" element={<EmployeeDetails/>}/>
 
+                    <Route path="/officers" element={<Officers/>}/>
                     <Route path="/officers/create" element={<Officer key="create"/>}/>
                     <Route path="/officers/id/:officerId/update" element={<Officer key="update"/>}/>
                     <Route path="/officers/id/:officerId" element={<OfficerDetails/>}/>

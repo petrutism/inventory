@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {getEmployees} from "../api/inventoryApi";
+import {getOfficers} from "../api/inventoryApi";
 import {CircularProgress, Paper, Table, TableBody, TableContainer, TableHead, TableRow} from "@mui/material";
 import TableCell, {tableCellClasses} from '@mui/material/TableCell';
 import styled from "@emotion/styled";
@@ -25,18 +25,18 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
     },
 }));
 
-const Employees = () => {
+const Officers = () => {
 
     const [loading, setLoading] = useState(true);
-    const [employees, setEmployees] = useState([]);
+    const [officers, setOfficers] = useState([]);
 
     useEffect(() => {
-        getEmployees()
+        getOfficers()
             .then(({data}) => {
-                setEmployees(data);
-                console.log('employees duomenys', data);
+                setOfficers(data);
+                console.log('officers duomenys', data);
             })
-            .catch((error) => console.log('employees klaida', error))
+            .catch((error) => console.log('officers klaida', error))
             .finally(() => setLoading(false))
     }, []);
 
@@ -48,21 +48,21 @@ const Employees = () => {
                         <Table sx={{minWidth: 700}} aria-label="customized table">
                             <TableHead>
                                 <TableRow>
-                                    <StyledTableCell>Employee full name</StyledTableCell>
+                                    <StyledTableCell>Officer full name</StyledTableCell>
                                     <StyledTableCell>City</StyledTableCell>
                                     <StyledTableCell>Room number</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {employees.map((employee) => (
-                                    <StyledTableRow key={employee.id}>
+                                {officers.map((officer) => (
+                                    <StyledTableRow key={officer.id}>
                                         <StyledTableCell component="th" scope="row">
-                                            <NavLink to={`/employees/id/${employee.id}`}>
-                                                {employee.name} {employee.surname}
+                                            <NavLink to={`/officers/id/${officer.id}`}>
+                                                {officer.name} {officer.surname}
                                             </NavLink>
                                         </StyledTableCell>
-                                        <StyledTableCell>{employee.room.city}</StyledTableCell>
-                                        <StyledTableCell>{employee.room.roomNumber}</StyledTableCell>
+                                        <StyledTableCell>{officer.room.city}</StyledTableCell>
+                                        <StyledTableCell>{officer.room.roomNumber}</StyledTableCell>
                                     </StyledTableRow>
                                 ))}
                             </TableBody>
@@ -72,4 +72,4 @@ const Employees = () => {
         </>
     )
 }
-export default Employees;
+export default Officers;
