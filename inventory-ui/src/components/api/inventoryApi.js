@@ -3,6 +3,11 @@ import HTTP from "./index";
 const getEmployees = () => HTTP.get('/employees');
 const getOfficers = () => HTTP.get('/officers');
 const getRooms = () => HTTP.get('/rooms');
+const getRoomById = (roomId) => HTTP.get(`/rooms/id/${roomId}`);
+const saveRoom = (roomFromForm) => HTTP.post('/rooms', roomFromForm);
+const updateRoom = (roomFromForm, roomId) => HTTP.put(`/rooms/id/${roomId}`, roomFromForm);
+const deleteRoom = (roomId) => HTTP.delete(`/rooms/id/${roomId}`);
+
 const saveEmployee = (employee) => HTTP.post('/employees', employee);
 const updateEmployee = (employeeFromForm, employeeId) => HTTP.put(`/employees/id/${employeeId}`, employeeFromForm);
 const getEmployeeById = (employeeId) => HTTP.get(`/employees/id/${employeeId}`);
@@ -36,6 +41,10 @@ export {
     deleteOfficer,
     getInventories,
     getRooms,
+    getRoomById,
+    saveRoom,
+    updateRoom,
+    deleteRoom,
     getOfficers,
     getCities,
     getRoomNumbers,

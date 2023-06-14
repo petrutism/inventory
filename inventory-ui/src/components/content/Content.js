@@ -6,12 +6,15 @@ import {Route, Routes} from "react-router-dom";
 import Inventories from "../page/Inventories";
 import Employees from "../page/Employees";
 import Officers from "../page/Officers";
+import Cities from "../page/Cities";
 
 import Inventory from "../forms/Inventory";
 import Rooms from "../page/Rooms";
+import Room from "../forms/Room";
 import InventoryDetails from "../page/InventoryDetails";
 import EmployeeDetails from "../page/EmployeeDetails";
 import OfficerDetails from "../page/OfficerDetails";
+import RoomDetails from "../page/RoomDetails";
 
 const Content = () => {
     return (
@@ -41,6 +44,12 @@ const Content = () => {
                     <Route path="/officers/id/:officerId" element={<OfficerDetails/>}/>
 
                     <Route path="/rooms" element={<Rooms/>}/>
+                    <Route path="/cities" element={<Cities/>}/>
+                    <Route path="/rooms/:city" element={<Rooms/>}/>
+                    <Route path="/rooms/create" element={<Room key="create"/>}/>
+                    <Route path="/rooms/id/:roomId/update" element={<Room key="update"/>}/>
+                    <Route path="/rooms/id/:roomId" element={<RoomDetails/>}/>
+
                 </Routes>
             </Container>
         </>

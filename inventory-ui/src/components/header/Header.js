@@ -6,6 +6,8 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import GroupIcon from '@mui/icons-material/Group';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import BusinessIcon from '@mui/icons-material/Business';
+import DomainAddIcon from '@mui/icons-material/DomainAdd';
 
 const Header = () => {
 
@@ -52,6 +54,18 @@ const Header = () => {
                             <MenuItem path="/officers" value={<PeopleOutlineIcon/>}/>
                         </IconButton>
                     </Tooltip>
+
+                    <Tooltip title="Cities">
+                        <IconButton>
+                            <MenuItem path="/cities" value={<BusinessIcon/>}/>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Add room">
+                        <IconButton>
+                            <MenuItem path="/rooms/create" value={<DomainAddIcon/>}/>
+                        </IconButton>
+                    </Tooltip>
+
                 </nav>
                 <Button href="#" variant="outlined" sx={{my: 1, mx: 1.5}}>
                     Login

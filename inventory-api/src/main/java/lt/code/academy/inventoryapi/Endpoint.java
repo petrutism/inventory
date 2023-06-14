@@ -21,7 +21,7 @@ public interface Endpoint {
     String EMPLOYEE_BY_FULL_NAME = "/{" + EMPLOYEE_NAME + "}/{" + EMPLOYEE_SURNAME + "}";
     String OFFICER_BY_ID = "/id/{" + OFFICER_ID + "}";
     String OFFICER_BY_FULL_NAME = "/{" + OFFICER_NAME + "}/{" + OFFICER_SURNAME + "}";
-    String ROOM_BY_ID = ROOMS + "/{" + ROOM_ID + "}";
+    String ROOM_BY_ID = "/id/{" + ROOM_ID + "}";
     String ROOM_BY_NUMBER_AND_CITY = "/{" + ROOM_NUMBER + "}/{" + CITY + "}";
     String CITIES = "/cities";
     String ROOM_NUMBERS = "/{" + CITY + "}/roomNumbers";
