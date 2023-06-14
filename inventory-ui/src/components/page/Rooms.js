@@ -54,9 +54,9 @@ const Rooms = () => {
                             </TableHead>
                             <TableBody>
                                 {roomNumbers.map((roomNumber) => (
-                                    <StyledTableRow key={roomNumber}>
+                                    <StyledTableRow key={roomNumber.id}>
                                         <StyledTableCell>{city}</StyledTableCell>
-                                        <StyledTableCell>{roomNumber}</StyledTableCell>
+                                        <StyledTableCell>{roomNumber.roomNumber}</StyledTableCell>
                                     </StyledTableRow>
                                 ))}
                             </TableBody>
