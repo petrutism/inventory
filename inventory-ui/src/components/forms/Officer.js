@@ -24,10 +24,6 @@ const officerValidationSchema = Yup.object().shape(
 const Officer = () => {
     const [notification, setNotification] = useState({isVisible: false});
     const [citiesLoading, setCitiesLoading] = useState(true);
-    const [roomsLoading, setRoomsLoading] = useState(true);
-    const [rooms, setRooms] = useState([]);
-    const [roomNumbersLoading, setRoomNumbersLoading] = useState(true);
-
     const [cities, setCities] = useState([]);
     const [selectedCity, setSelectedCity] = useState('');
     const [roomNumbers, setRoomNumbers] = useState([]);
@@ -38,8 +34,8 @@ const Officer = () => {
         name: '',
         surname: '',
         room: {
-            city:'',
-            roomNumber:'',
+            city: '',
+            roomNumber: '',
         },
     });
 
@@ -60,7 +56,7 @@ const Officer = () => {
     const onFormSubmit = (values, helper) => {
         values.city = selectedCity;
 
-        rooms.forEach(r => {
+        roomNumbers.forEach(r => {
             if (r.city === selectedCity && r.roomNumber === values.selectedRoom) {
                 values.room = r;
             }
@@ -104,21 +100,14 @@ const Officer = () => {
             .finally(() => helper.setSubmitting(false));
     }
     const handleCityChange = (event) => {
-        const roomNumbersFromBackend = [];
+
         setSelectedCity(event.target.value);
 
         getRoomNumbers(event.target.value)
             .then(({data}) => {
-                data.map((rm) => {
-                    roomNumbersFromBackend.push({
-                        value: `${rm}`,
-                        label: `${rm}`,
-                    })
-                });
-                setRoomNumbers(roomNumbersFromBackend);
+                setRoomNumbers(data);
             })
             .finally(() => {
-                setRoomNumbersLoading(false);
                 console.log('roomNumbers', roomNumbers);
             });
     };
@@ -142,22 +131,10 @@ const Officer = () => {
             });
     }, []);
 
-    useEffect(() => {
-        getRooms()
-            .then(({data}) => {
-                setRooms(data);
-            })
-            .catch((error) => console.log('rooms error', error))
-            .finally(() => {
-                setRoomsLoading(false);
-                console.log('rooms', rooms);
-            });
-    }, []);
-
     return (
         <>
             {
-                citiesLoading || roomsLoading ? <CircularProgress/> :
+                citiesLoading ? <CircularProgress/> :
                     <Formik
                         initialValues={{
                             name: officer.name,
@@ -208,8 +185,8 @@ const Officer = () => {
                                             label="Select room"
                                         >
                                             {roomNumbers.map((roomNumber) => (
-                                                <MenuItem key={roomNumber?.value} value={roomNumber?.value}>
-                                                    {roomNumber?.value}
+                                                <MenuItem key={roomNumber.id} value={roomNumber.roomNumber}>
+                                                    {roomNumber.roomNumber}
                                                 </MenuItem>))}
                                         </Field>
                                     </Stack>

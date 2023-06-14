@@ -74,15 +74,11 @@ const Inventory = () => {
 
     const [officersLoading, setOfficersLoading] = useState(true);
     const [citiesLoading, setCitiesLoading] = useState(true);
-    const [roomsLoading, setRoomsLoading] = useState(true);
-    const [roomNumbersLoading, setRoomNumbersLoading] = useState(true);
-    const [rooms, setRooms] = useState([]);
     const [officers, setOfficers] = useState([]);
     const [cities, setCities] = useState([]);
     const [selectedCity, setSelectedCity] = useState('');
     const [roomNumbers, setRoomNumbers] = useState([]);
     const [employees, setEmployees] = useState([]);
-    const [employeesLoading, setEmployeesLoading] = useState(true);
     const [inventoryLoading, setInventoryLoading] = useState(true);
     const navigation = useNavigate();
     const {inventoryId} = useParams();
@@ -92,13 +88,13 @@ const Inventory = () => {
         description: '',
         category: '',
         room: {
-            city:'',
-            roomNumber:''
+            city: '',
+            roomNumber: ''
         },
         officer: {
-            id:'',
-            name:'',
-            surname:''
+            id: '',
+            name: '',
+            surname: ''
         },
         employee: {},
         priceBefore: '',
@@ -127,7 +123,7 @@ const Inventory = () => {
     const onFormSubmit = (values, helper) => {
         values.city = selectedCity;
 
-        rooms.forEach(r => {
+        roomNumbers.forEach(r => {
             if (r.city === selectedCity && r.roomNumber === values.selectedRoom) {
                 values.room = r;
             }
@@ -188,21 +184,14 @@ const Inventory = () => {
     }
 
     const handleCityChange = (event) => {
-        const roomNumbersFromBackend = [];
+
         setSelectedCity(event.target.value);
 
         getRoomNumbers(event.target.value)
             .then(({data}) => {
-                data.map((rm) => {
-                    roomNumbersFromBackend.push({
-                        value: `${rm}`,
-                        label: `${rm}`,
-                    })
-                });
-                setRoomNumbers(roomNumbersFromBackend);
+                setRoomNumbers(data);
             })
             .finally(() => {
-                setRoomNumbersLoading(false);
                 console.log('roomNumbers', roomNumbers);
             });
     };
@@ -239,25 +228,13 @@ const Inventory = () => {
     }, []);
 
     useEffect(() => {
-        getRooms()
-            .then(({data}) => {
-                setRooms(data);
-            })
-            .catch((error) => console.log('rooms error', error))
-            .finally(() => {
-                setRoomsLoading(false);
-                console.log('rooms', rooms);
-            });
-    }, []);
-
-    useEffect(() => {
         getEmployees()
             .then(({data}) => {
                 setEmployees(data);
             })
             .catch((error) => console.log('employees error', error))
             .finally(() => {
-                setEmployeesLoading(false);
+
                 console.log('employees', employees);
             });
     }, []);
@@ -265,7 +242,7 @@ const Inventory = () => {
     return (
         <>
             {
-                officersLoading || citiesLoading || roomsLoading || inventoryLoading ? <CircularProgress/> :
+                officersLoading || citiesLoading || inventoryLoading ? <CircularProgress/> :
                     <Formik
                         initialValues={{
                             inventoryNumber: inventory.inventoryNumber,
@@ -342,8 +319,8 @@ const Inventory = () => {
                                             label="Select room"
                                         >
                                             {roomNumbers.map((roomNumber) => (
-                                                <MenuItem key={roomNumber.value} value={roomNumber.value}>
-                                                    {roomNumber.label}
+                                                <MenuItem key={roomNumber.id} value={roomNumber.roomNumber}>
+                                                    {roomNumber.roomNumber}
                                                 </MenuItem>))}
                                         </Field>
                                     </Stack>

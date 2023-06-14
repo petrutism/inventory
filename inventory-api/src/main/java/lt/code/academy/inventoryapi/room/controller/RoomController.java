@@ -40,16 +40,16 @@ public class RoomController {
         return cities;
     }
     @GetMapping(value =ROOM_NUMBERS ,produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<String> getRoomNumbersByCity(@PathVariable(CITY) String city){
+    public List<Room> getRoomsByCity(@PathVariable(CITY) String city){
         List<Room> rooms = getRooms();
-        List<String> roomNumbers = new ArrayList<>();
+        List<Room> roomsByCity = new ArrayList<>();
 
         for (Room room : rooms) {
             if(room.getCity().equals(city) ){
-                roomNumbers.add(room.getRoomNumber());
+                roomsByCity.add(room);
             }
         }
-        return roomNumbers;
+        return roomsByCity;
     }
 
     @GetMapping(value = ROOM_BY_ID, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -74,9 +74,6 @@ public class RoomController {
         room.setId(id);
         roomService.updateRoom(room);
     }
-
-
-
 
     @DeleteMapping(value = ROOM_BY_ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
