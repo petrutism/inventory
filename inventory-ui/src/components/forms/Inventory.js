@@ -17,37 +17,7 @@ import {
     updateInventory
 } from "../api/inventoryApi";
 import {useNavigate, useParams} from "react-router-dom";
-
-const inventoryValidationSchema = Yup.object().shape({
-    inventoryNumber: Yup.string()
-        .min(5, 'Inventory number must be longer than 5')
-        .max(20, 'Inventory number must be shorter than 20')
-        .required('Inventory number is required'),
-    cardNumber: Yup.string()
-        .min(5, 'Card number must be longer than 5')
-        .max(20, 'Card number must be shorter than 20')
-        .required('Card number is required'),
-    description: Yup.string()
-        .min(5, 'Description must be longer than 5')
-        .max(100, 'Description must be shorter than 100')
-        .required('Description is required'),
-    priceBefore: Yup.number()
-        .typeError('Price must be a number')
-        .positive('Price must be bigger than 0')
-        .required('Price is required'),
-    priceNow: Yup.number()
-        .typeError('Price must be a number')
-        .positive('Price must be bigger than 0')
-        .required('Price is required'),
-    employeesName: Yup.string()
-        .min(5, 'Employees name must be longer than 2')
-        .max(10, 'Employees surname must be shorter than 10')
-        .required('Employees name is required'),
-    employeesSurname: Yup.string()
-        .min(5, 'Employees surname must be longer than 2')
-        .max(10, 'Employees surname must be shorter than 20')
-        .required('Employees surname is required')
-});
+import {useTranslation} from "react-i18next";
 
 const Inventory = () => {
     const [notification, setNotification] = useState({isVisible: false});
@@ -99,6 +69,37 @@ const Inventory = () => {
         employee: {},
         priceBefore: '',
         priceNow: ''
+    });
+    const {t} = useTranslation('inventory');
+    const inventoryValidationSchema = Yup.object().shape({
+        inventoryNumber: Yup.string()
+            .min(5, t('validationInventoryNumberMin'))
+            .max(20, t('validationInventoryNumberMax'))
+            .required(t('validationInventoryNumberRequired')),
+        cardNumber: Yup.string()
+            .min(5, t('validationCardNumberMin'))
+            .max(20, t('validationCardNumberMax'))
+            .required(t('validationCardNumberRequired')),
+        description: Yup.string()
+            .min(5, t('validationDescriptionMin'))
+            .max(100, t('validationDescriptionMax'))
+            .required(t('validationDescriptionRequired')),
+        priceBefore: Yup.number()
+            .typeError(t('validationPriceBeforeType'))
+            .positive(t('validationPriceBeforePositive'))
+            .required(t('validationPriceBeforeRequired')),
+        priceNow: Yup.number()
+            .typeError(t('validationPriceNowType'))
+            .positive(t('validationPriceNowPositive'))
+            .required(t('validationPriceNowRequired')),
+        employeesName: Yup.string()
+            .min(5, t('validationNameMin'))
+            .max(20, t('validationNameMax'))
+            .required(t('validationNameRequired')),
+        employeesSurname: Yup.string()
+            .min(5, t('validationSurnameMin'))
+            .max(20, t('validationSurnameMax'))
+            .required(t('validationSurnameRequired'))
     });
 
     useEffect(() => {
@@ -164,10 +165,10 @@ const Inventory = () => {
         saveInventory(inventoryFromForm)
             .then((response) => {
                 helper.resetForm();
-                setNotification({isVisible: true, message: 'Inventory created successfully', severity: 'success'});
+                setNotification({isVisible: true, message: t('successMessage'), severity: 'success'});
             })
             .catch((error) => {
-                setNotification({isVisible: true, message: 'Inventory cannot be created', severity: 'error'});
+                setNotification({isVisible: true, message: t('errorMessage'), severity: 'error'});
                 console.log(error);
             })
             .finally(() => helper.setSubmitting(false));
@@ -177,7 +178,7 @@ const Inventory = () => {
             .then(() => navigation(`/inventories/id/${inventoryId}`))
             .catch((error) => setNotification({
                 isVisible: true,
-                message: 'Inventory cannot be updated',
+                message: t('updateErrorMessage'),
                 severity: 'error'
             }))
             .finally(() => helper.setSubmitting(false));
@@ -271,23 +272,23 @@ const Inventory = () => {
                                     {notification.isVisible &&
                                         <Alert severity={notification.severity}>{notification.message}</Alert>}
                                     <Typography
-                                        variant="h5">{inventoryId ? 'Update Inventory:' : 'Create Inventory:'}</Typography>
+                                        variant="h5">{inventoryId ? t('updateInventory') : t('createInventory')}</Typography>
                                     <FormTextInput
                                         error={props.touched.inventoryNumber && !!props.errors.inventoryNumber}
                                         name="inventoryNumber"
-                                        label="Inventory Number"/>
+                                        label={t('labelInventoryNumber')}/>
                                     <FormTextInput error={props.touched.cardNumber && !!props.errors.cardNumber}
                                                    name="cardNumber"
-                                                   label="Inventory card number"/>
+                                                   label={t('labelCardNumber')}/>
                                     <FormTextInput error={props.touched.description && !!props.errors.description}
                                                    name="description"
-                                                   label="Inventory description"/>
+                                                   label={t('labelDescription')}/>
                                     <Field
                                         id="category"
                                         name="category"
                                         as={TextField}
                                         select
-                                        label="Select category"
+                                        label={t('labelCategory')}
                                     >
                                         {categories.map((category) => (
                                             <MenuItem key={category.value} value={category.value}>
@@ -302,7 +303,7 @@ const Inventory = () => {
                                             value={selectedCity}
                                             as={TextField}
                                             select
-                                            label="Select city"
+                                            label={t('labelCity')}
                                             onChange={handleCityChange}
                                         >
                                             {cities.map((c) => (<MenuItem key={c.value} value={c.value}>
@@ -316,7 +317,7 @@ const Inventory = () => {
                                             name="selectedRoom"
                                             as={TextField}
                                             select
-                                            label="Select room"
+                                            label={t('labelRoom')}
                                         >
                                             {roomNumbers.map((roomNumber) => (
                                                 <MenuItem key={roomNumber.id} value={roomNumber.roomNumber}>
@@ -329,7 +330,7 @@ const Inventory = () => {
                                         name="officerId"
                                         as={TextField}
                                         select
-                                        label="Select officer"
+                                        label={t('labelOfficer')}
                                     >
                                         {officers.map((officer) => (<MenuItem key={officer.id} value={officer.id}>
                                             {officer.name} {officer.surname}
@@ -339,26 +340,26 @@ const Inventory = () => {
                                         <FormTextInput
                                             error={props.touched.employeesName && !!props.errors.employeesName}
                                             name="employeesName"
-                                            label="Employees name"/>
+                                            label={t('labelEmployeesName')}/>
                                         <FormTextInput
                                             error={props.touched.employeesSurname && !!props.errors.employeesSurname}
                                             name="employeesSurname"
-                                            label="Employees surname"/>
+                                            label={t('labelEmployeesSurname')}/>
                                     </Stack>
                                     <Stack spacing={1} direction="row">
                                         <FormTextInput error={props.touched.priceBefore && !!props.errors.priceBefore}
                                                        name="priceBefore"
-                                                       label="Inventory price before using"/>
+                                                       label={t('labelPriceBefore')}/>
 
                                         <FormTextInput error={props.touched.priceNow && !!props.errors.priceNow}
                                                        name="priceNow"
-                                                       label="Inventory price at the end of use"/>
+                                                       label={t('labelPriceNow')}/>
                                     </Stack>
                                 </Stack>
                                 <Typography sx={{textAlign: 'right', mt: 2}}>
                                     {props.isSubmitting ? <CircularProgress/> :
                                         <Button variant="outlined"
-                                                type="submit">{inventoryId ? 'Update inventory' : 'Create inventory'}</Button>}
+                                                type="submit">{inventoryId ? t('updateInventory') : t('createInventory')}</Button>}
                                 </Typography>
                             </Form>)}
                     </Formik>

@@ -6,18 +6,9 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {getRoomById, saveRoom, updateRoom} from "../api/inventoryApi";
 import {useParams, useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
-const roomValidationSchema = Yup.object().shape(
-    {
-        city: Yup.string()
-            .min(3, 'City name must be longer than 3')
-            .max(20, 'City name must be shorter than 20')
-            .required('City is required'),
-        roomNumber: Yup.number()
-            .positive('Room number must be positive value')
-            .required('Room number is required')
-    }
-)
+
 const Room = () => {
     const [notification, setNotification] = useState({isVisible: false});
 
@@ -28,6 +19,18 @@ const Room = () => {
         city: '',
         roomNumber: '',
     });
+    const {t} = useTranslation('room');
+    const roomValidationSchema = Yup.object().shape(
+        {
+            city: Yup.string()
+                .min(3, t('validationCityMin'))
+                .max(20, t('validationCityMax'))
+                .required(t('validationCityRequired')),
+            roomNumber: Yup.number()
+                .positive(t('validationRoomNumberPositive'))
+                .required(t('validationRoomNumberRequired'))
+        }
+    )
 
     useEffect(() => {
         if (!roomId) {
@@ -60,10 +63,10 @@ const Room = () => {
         saveRoom(roomFromForm)
             .then((response) => {
                 helper.resetForm();
-                setNotification({isVisible: true, message: 'Room created successfully', severity: 'success'});
+                setNotification({isVisible: true, message: t('successMessage'), severity: 'success'});
             })
             .catch((error) => {
-                setNotification({isVisible: true, message: 'Room cannot be created', severity: 'error'});
+                setNotification({isVisible: true, message: t('errorMessage'), severity: 'error'});
                 console.log(error);
             })
             .finally(() => helper.setSubmitting(false));
@@ -73,7 +76,7 @@ const Room = () => {
             .then(() => navigation(`/rooms/id/${roomId}`))
             .catch((error) => setNotification({
                 isVisible: true,
-                message: 'Room cannot be updated',
+                message: t('updateErrorMessage'),
                 severity: 'error'
             }))
             .finally(() => helper.setSubmitting(false));
@@ -94,20 +97,20 @@ const Room = () => {
                                     {notification.isVisible &&
                                         <Alert severity={notification.severity}>{notification.message}</Alert>}
                                     <Typography
-                                        variant="h5">{roomId ? 'Update Room:' : 'Create Room:'}</Typography>
+                                        variant="h5">{roomId ? t('updateRoom') : t('createRoom')}</Typography>
                                     <FormTextInput error={props.touched.city && !!props.errors.city}
                                                    name="city"
-                                                   label="City"/>
+                                                   label={t('labelCity')}/>
                                     <FormTextInput error={props.touched.roomNumber && !!props.errors.roomNumber}
                                                    name="roomNumber"
-                                                   label="Room number"/>
+                                                   label={t('labelRoomNumber')}/>
 
                                 </Stack>
                                 <Typography sx={{textAlign: 'right', mt: 2}}>
                                     {
                                         props.isSubmitting ? <CircularProgress/> :
                                             <Button variant="outlined"
-                                                    type="submit">{roomId ? 'Update room' : 'Create room'}</Button>
+                                                    type="submit">{roomId ? t('updateRoom') : t('createRoom')}</Button>
                                     }
                                 </Typography>
                             </Form>
