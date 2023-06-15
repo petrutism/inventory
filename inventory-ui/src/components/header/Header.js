@@ -9,9 +9,9 @@ import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import BusinessIcon from '@mui/icons-material/Business';
 import DomainAddIcon from '@mui/icons-material/DomainAdd';
 import LanguageSwitcher from "../switcher/LanguageSwitcher";
-
+import {useTranslation} from "react-i18next";
 const Header = () => {
-
+    const {t} = useTranslation('header');
     return (
         <AppBar
             position="static"
@@ -26,50 +26,49 @@ const Header = () => {
                             to="/"
                             component={NavLink}
                 >
-                    Inventories
+                    {t('home')}
                 </Typography>
                 <nav>
-                    <Tooltip title="Create inventory">
+                    <Tooltip title={t('createInventory')}>
                         <IconButton>
                             <MenuItem path="/inventories/create" value={<AddBoxIcon/>}/>
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Create employee">
+                    <Tooltip title={t('createEmployee')}>
                         <IconButton>
                             <MenuItem path="/employees/create" value={<PersonAddIcon/>}/>
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Employees">
+                    <Tooltip title={t('employees')}>
                         <IconButton>
                             <MenuItem path="/employees" value={<GroupIcon/>}/>
                         </IconButton>
                     </Tooltip>
 
-                    <Tooltip title="Create officer">
+                    <Tooltip title={t('createOfficer')}>
                         <IconButton>
                             <MenuItem path="/officers/create" value={<PersonAddAltIcon/>}/>
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Officers">
+                    <Tooltip title={t('officers')}>
                         <IconButton>
                             <MenuItem path="/officers" value={<PeopleOutlineIcon/>}/>
                         </IconButton>
                     </Tooltip>
 
-                    <Tooltip title="Cities">
+                    <Tooltip title={t('cities')}>
                         <IconButton>
                             <MenuItem path="/cities" value={<BusinessIcon/>}/>
                         </IconButton>
                     </Tooltip>
-                    <Tooltip title="Add room">
+                    <Tooltip title={t('createRoom')}>
                         <IconButton>
                             <MenuItem path="/rooms/create" value={<DomainAddIcon/>}/>
                         </IconButton>
                     </Tooltip>
-
                 </nav>
                 <Button href="#" variant="outlined" sx={{my: 1, mx: 1.5}}>
-                    Login
+                    {t('login')}
                 </Button>
                 <LanguageSwitcher/>
             </Toolbar>

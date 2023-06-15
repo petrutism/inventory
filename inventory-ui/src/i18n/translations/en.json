@@ -51,5 +51,62 @@
     "priceAtStart": "Price at start of use:",
     "priceAtEnd": "Price at end of use:",
     "updateInventory": "UPDATE INVENTORY"
+  },
+  "deleteEmployee": {
+    "deleteEmployee": "DELETE EMPLOYEE"
+  },
+  "deleteInventory": {
+    "deleteInventory": "DELETE INVENTORY"
+  },
+  "deleteOfficer": {
+    "deleteOfficer": "DELETE OFFICER"
+  },
+  "deleteRoom": {
+    "deleteRoom": "DELETE ROOM"
+  },
+  "header": {
+    "home": "INVENTORIES",
+    "createInventory": "Create inventory",
+    "createEmployee": "Create employee",
+    "employees": "Employees",
+    "createOfficer": "Create officer",
+    "officers": "Officers",
+    "cities": "Cities",
+    "createRoom": "Create room",
+    "login": "LOGIN"
+  },
+  "employee": {
+    "validationNameMin": "Name must be longer than 5",
+    "validationNameMax": "Name must be shorter than 20",
+    "validationNameRequired": "Name is required",
+    "validationSurnameMin": "Surname must be longer than 5",
+    "validationSurnameMax": "Surname must be shorter than 10",
+    "validationSurnameRequired": "Surname is required",
+    "successMessage": "Employee created successfully...",
+    "errorMessage": "Employee cannot be created...",
+    "updateErrorMessage": "Employee cannot be updated...",
+    "updateEmployee": "Update employee",
+    "createEmployee": "Create employee",
+    "labelName": "Employee name",
+    "labelSurname": "Employee surname",
+    "labelSelectCity": "Select city",
+    "labelSelectRoom": "Select room"
+  },
+  "officer": {
+    "validationNameMin": "Name must be longer than 5",
+    "validationNameMax": "Name must be shorter than 20",
+    "validationNameRequired": "Name is required",
+    "validationSurnameMin": "Surname must be longer than 5",
+    "validationSurnameMax": "Surname must be shorter than 10",
+    "validationSurnameRequired": "Surname is required",
+    "successMessage": "Officer created successfully...",
+    "errorMessage": "Officer cannot be created...",
+    "updateErrorMessage": "Officer cannot be updated...",
+    "updateOfficer": "Update officer",
+    "createOfficer": "Create officer",
+    "labelName": "Officer name",
+    "labelSurname": "Officer surname",
+    "labelSelectCity": "Select city",
+    "labelSelectRoom": "Select room"
   }
 }

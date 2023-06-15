@@ -51,5 +51,62 @@
     "priceAtStart": "Kaina naudojimo pradžioje:",
     "priceAtEnd": "Kaina pasibaigus naudojimui:",
     "updateInventory": "REDAGUOTI INVENTORIŲ"
+  },
+  "deleteEmployee": {
+    "deleteEmployee": "NAIKINTI DARBUOTOJĄ"
+  },
+  "deleteInventory": {
+    "deleteInventory": "NAIKINTI INVENTORIŲ"
+  },
+  "deleteOfficer": {
+    "deleteOfficer": "NAIKINTI ATSAKINGĄ ASMENĮ"
+  },
+  "deleteRoom": {
+    "deleteRoom": "NAIKINTI KABINETĄ"
+  },
+  "header": {
+    "home": "INVENTORIUS",
+    "createInventory": "Sukurti inventorių",
+    "createEmployee": "Sukurti naudotoją",
+    "employees": "Naudotojai",
+    "createOfficer": "Sukurti atsakingą asmenį",
+    "officers": "Atsakingi asmenys",
+    "cities": "Miestai",
+    "createRoom": "Sukurti kabinetą",
+    "login": "PRISIJUNGTI"
+  },
+  "employee": {
+    "validationNameMin": "Vardo ilgis turi būti bent 5",
+    "validationNameMax": "Vardas turi būti ne ilgesnis kaip 20",
+    "validationNameRequired": "Vardas yra privalomas",
+    "validationSurnameMin": "Pavardės ilgis turi būti bent 5",
+    "validationSurnameMax": "Pavardė turi būti ne ilgesnė kaip 20",
+    "validationSurnameRequired": "Pavardė yra privaloma",
+    "successMessage": "Darbuotojas s4kmingai sukurtas...",
+    "errorMessage": "Darbuotojas negali b8ti sukurtas...",
+    "updateErrorMessage": "Darbuotojas negali b8ti atnaujintas...",
+    "updateEmployee": "Redaguoti darbuotoją",
+    "createEmployee": "Sukurti darbuotoją",
+    "labelName": "Darbuotojo vardas",
+    "labelSurname": "Darbuotojo pavardė",
+    "labelSelectCity": "Pasirinkite miestą",
+    "labelSelectRoom": "Pasirinkite kabinetą"
+  },
+  "officer": {
+    "validationNameMin": "Vardo ilgis turi būti bent 5",
+    "validationNameMax": "Vardas turi būti ne ilgesnis kaip 20",
+    "validationNameRequired": "Vardas yra privalomas",
+    "validationSurnameMin": "Pavardės ilgis turi būti bent 5",
+    "validationSurnameMax": "Pavardė turi būti ne ilgesnė kaip 20",
+    "validationSurnameRequired": "Pavardė yra privaloma",
+    "successMessage": "Atsakingas asmuo sėkmingai sukurtas...",
+    "errorMessage": "Atsakingas asmuo negali būti sukurtas...",
+    "updateErrorMessage": "Atsakingas asmuo negali būti atnaujintas...",
+    "updateOfficer": "Redaguoti atsakingą asmenį",
+    "createOfficer": "Sukurti atsakingą asmenį",
+    "labelName": "Atsakingo asmens vardas",
+    "labelSurname": "Atsakingo asmens pavardė",
+    "labelSelectCity": "Pasirinkite miestą",
+    "labelSelectRoom": "Pasirinkite kabinetą"
   }
 }

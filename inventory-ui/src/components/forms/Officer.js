@@ -8,19 +8,9 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {getCities, getOfficerById, getRoomNumbers, getRooms, saveOfficer, updateOfficer} from "../api/inventoryApi";
 import {useParams, useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
-const officerValidationSchema = Yup.object().shape(
-    {
-        name: Yup.string()
-            .min(5, 'Name must be longer than 5')
-            .max(10, 'Name must be shorter than 10')
-            .required('Name is required'),
-        surname: Yup.string()
-            .min(5, 'Surname must be longer than 5')
-            .max(10, 'Surname must be shorter than 10')
-            .required('Surname is required')
-    }
-)
+
 const Officer = () => {
     const [notification, setNotification] = useState({isVisible: false});
     const [citiesLoading, setCitiesLoading] = useState(true);
@@ -38,6 +28,20 @@ const Officer = () => {
             roomNumber: '',
         },
     });
+    const {t} = useTranslation('officer');
+
+    const officerValidationSchema = Yup.object().shape(
+        {
+            name: Yup.string()
+                .min(5, t('validationNameMin'))
+                .max(20, t('validationNameMax'))
+                .required(t('validationNameRequired')),
+            surname: Yup.string()
+                .min(5, t('validationSurnameMin'))
+                .max(20, t('validationSurnameMax'))
+                .required(t('validationSurnameRequired'))
+        }
+    )
 
     useEffect(() => {
         if (!officerId) {
@@ -81,10 +85,10 @@ const Officer = () => {
         saveOfficer(officerFromForm)
             .then((response) => {
                 helper.resetForm();
-                setNotification({isVisible: true, message: 'Officer created successfully', severity: 'success'});
+                setNotification({isVisible: true, message: t('successMessage'), severity: 'success'});
             })
             .catch((error) => {
-                setNotification({isVisible: true, message: 'Officer cannot be created', severity: 'error'});
+                setNotification({isVisible: true, message: t('errorMessage'), severity: 'error'});
                 console.log(error);
             })
             .finally(() => helper.setSubmitting(false));
@@ -94,7 +98,7 @@ const Officer = () => {
             .then(() => navigation(`/officers/id/${officerId}`))
             .catch((error) => setNotification({
                 isVisible: true,
-                message: 'Officer cannot be updated',
+                message: t('updateErrorMessage'),
                 severity: 'error'
             }))
             .finally(() => helper.setSubmitting(false));
@@ -153,13 +157,13 @@ const Officer = () => {
                                     {notification.isVisible &&
                                         <Alert severity={notification.severity}>{notification.message}</Alert>}
                                     <Typography
-                                        variant="h5">{officerId ? 'Update Officer:' : 'Create Officer:'}</Typography>
+                                        variant="h5">{officerId ? t('updateOfficer') : t('createOfficer')}</Typography>
                                     <FormTextInput error={props.touched.name && !!props.errors.name}
                                                    name="name"
-                                                   label="Officers name"/>
+                                                   label={t('labelName')}/>
                                     <FormTextInput error={props.touched.surname && !!props.errors.surname}
                                                    name="surname"
-                                                   label="Officers surname"/>
+                                                   label={t('labelSurname')}/>
                                     <Stack spacing={1} direction="row">
                                         <Field
                                             sx={{minWidth: '200px'}}
@@ -168,7 +172,7 @@ const Officer = () => {
                                             value={selectedCity}
                                             as={TextField}
                                             select
-                                            label="Select city"
+                                            label={t('labelSelectCity')}
                                             onChange={handleCityChange}
                                         >
                                             {cities.map((c) => (<MenuItem key={c.value} value={c.value}>
@@ -182,7 +186,7 @@ const Officer = () => {
                                             name="selectedRoom"
                                             as={TextField}
                                             select
-                                            label="Select room"
+                                            label={t('labelSelectRoom')}
                                         >
                                             {roomNumbers.map((roomNumber) => (
                                                 <MenuItem key={roomNumber.id} value={roomNumber.roomNumber}>
@@ -195,7 +199,7 @@ const Officer = () => {
                                     {
                                         props.isSubmitting ? <CircularProgress/> :
                                             <Button variant="outlined"
-                                                    type="submit">{officerId ? 'Update officer' : 'Create officer'}</Button>
+                                                    type="submit">{officerId ? t('updateOfficer') : t('createOfficer')}</Button>
                                     }
                                 </Typography>
                             </Form>

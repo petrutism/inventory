@@ -1,11 +1,11 @@
 import {Button} from "@mui/material";
 import {deleteRoom} from "./api/inventoryApi";
 import {useNavigate} from "react-router-dom";
-
+import {useTranslation} from "react-i18next";
 const DeleteRoom = ({roomId}) => {
 
     const navigation = useNavigate();
-
+    const {t} = useTranslation('deleteRoom');
     const onDeleteRoom = () => {
         deleteRoom(roomId)
             .then(() => {
@@ -17,7 +17,7 @@ const DeleteRoom = ({roomId}) => {
     return (
         <Button variant="outlined"
                 type="button"
-                color="error" onClick={() => onDeleteRoom()}>DELETE ROOM</Button>
+                color="error" onClick={() => onDeleteRoom()}>{t('deleteRoom')}</Button>
     );
 }
 

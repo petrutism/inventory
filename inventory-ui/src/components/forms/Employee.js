@@ -8,19 +8,9 @@ import * as React from "react";
 import {useEffect, useState} from "react";
 import {getCities, getEmployeeById, getRoomNumbers, getRooms, saveEmployee, updateEmployee} from "../api/inventoryApi";
 import {useParams, useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
-const employeeValidationSchema = Yup.object().shape(
-    {
-        name: Yup.string()
-            .min(5, 'Name must be longer than 5')
-            .max(20, 'Name must be shorter than 20')
-            .required('Name is required'),
-        surname: Yup.string()
-            .min(5, 'Surname must be longer than 5')
-            .max(20, 'Surname must be shorter than 20')
-            .required('Surname is required')
-    }
-)
+
 const Employee = () => {
     const [notification, setNotification] = useState({isVisible: false});
     const [citiesLoading, setCitiesLoading] = useState(true);
@@ -37,6 +27,19 @@ const Employee = () => {
             roomNumber: '',
         },
     });
+    const {t} = useTranslation('employee');
+    const employeeValidationSchema = Yup.object().shape(
+        {
+            name: Yup.string()
+                .min(5, t('validationNameMin'))
+                .max(20, t('validationNameMax'))
+                .required(t('validationNameRequired')),
+            surname: Yup.string()
+                .min(5, t('validationSurnameMin'))
+                .max(20, t('validationSurnameMax'))
+                .required(t('validationSurnameRequired'))
+        }
+    )
 
     useEffect(() => {
         if (!employeeId) {
@@ -79,10 +82,10 @@ const Employee = () => {
         saveEmployee(employeeFromForm)
             .then((response) => {
                 helper.resetForm();
-                setNotification({isVisible: true, message: 'Employee created successfully', severity: 'success'});
+                setNotification({isVisible: true, message: t('successMessage'), severity: 'success'});
             })
             .catch((error) => {
-                setNotification({isVisible: true, message: 'Employee cannot be created', severity: 'error'});
+                setNotification({isVisible: true, message: t('errorMessage'), severity: 'error'});
                 console.log(error);
             })
             .finally(() => helper.setSubmitting(false));
@@ -92,7 +95,7 @@ const Employee = () => {
             .then(() => navigation(`/employees/id/${employeeId}`))
             .catch((error) => setNotification({
                 isVisible: true,
-                message: 'Employee cannot be updated',
+                message: t('updateErrorMessage'),
                 severity: 'error'
             }))
             .finally(() => helper.setSubmitting(false));
@@ -149,13 +152,13 @@ const Employee = () => {
                                     {notification.isVisible &&
                                         <Alert severity={notification.severity}>{notification.message}</Alert>}
                                     <Typography
-                                        variant="h5">{employeeId ? 'Update Employee:' : 'Create Employee:'}</Typography>
+                                        variant="h5">{employeeId ? t('updateEmployee') : t('createEmployee')}</Typography>
                                     <FormTextInput error={props.touched.name && !!props.errors.name}
                                                    name="name"
-                                                   label="Employee name"/>
+                                                   label={t('labelName')}/>
                                     <FormTextInput error={props.touched.surname && !!props.errors.surname}
                                                    name="surname"
-                                                   label="Employee surname"/>
+                                                   label={t('labelSurname')}/>
                                     <Stack spacing={1} direction="row">
                                         <Field
                                             sx={{minWidth: '200px'}}
@@ -164,7 +167,7 @@ const Employee = () => {
                                             value={selectedCity}
                                             as={TextField}
                                             select
-                                            label="Select city"
+                                            label={t('labelSelectCity')}
                                             onChange={handleCityChange}
                                         >
                                             {cities.map((c) => (<MenuItem key={c.value} value={c.value}>
@@ -178,7 +181,7 @@ const Employee = () => {
                                             name="selectedRoom"
                                             as={TextField}
                                             select
-                                            label="Select room"
+                                            label={t('labelSelectRoom')}
                                         >
                                             {roomNumbers.map((roomNumber) => (
                                                 <MenuItem key={roomNumber.id} value={roomNumber.roomNumber}>
@@ -191,7 +194,7 @@ const Employee = () => {
                                     {
                                         props.isSubmitting ? <CircularProgress/> :
                                             <Button variant="outlined"
-                                                    type="submit">{employeeId ? 'Update employee' : 'Create employee'}</Button>
+                                                    type="submit">{employeeId ? t('updateEmployee') : t('createEmployee')}</Button>
                                     }
                                 </Typography>
                             </Form>

@@ -1,11 +1,11 @@
 import {Button} from "@mui/material";
 import {deleteInventory} from "./api/inventoryApi";
 import {useNavigate} from "react-router-dom";
-
+import {useTranslation} from "react-i18next";
 const DeleteInventory = ({inventoryId}) => {
 
     const navigation = useNavigate();
-
+    const {t} = useTranslation('deleteInventory');
     const onDeleteInventory = () => {
         deleteInventory(inventoryId)
             .then(() => {
@@ -17,7 +17,7 @@ const DeleteInventory = ({inventoryId}) => {
     return (
         <Button variant="outlined"
                 type="button"
-                color="error" onClick={() => onDeleteInventory()}>DELETE INVENTORY</Button>
+                color="error" onClick={() => onDeleteInventory()}>{t('deleteInventory')}</Button>
     );
 }
 
