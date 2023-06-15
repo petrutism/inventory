@@ -3,11 +3,12 @@ import {useEffect, useState} from "react";
 import {getRoomById} from "../api/inventoryApi";
 import {Button, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import DeleteRoom from "../DeleteRoom";
-
+import {useTranslation} from "react-i18next";
 const RoomDetailsPage = () => {
     const {roomId} = useParams();
     const [loading, setLoading] = useState(true);
     const [room, setRoom] = useState({});
+    const {t} = useTranslation('roomDetails');
 
     useEffect(() => {
         getRoomById(roomId)
@@ -27,13 +28,13 @@ const RoomDetailsPage = () => {
                                     <Typography variant="h5">{room.city}, {room.roomNumber}</Typography>
                                     <Grid container spacing={2} sx={{mt: 2}}>
                                         <Grid item xs={2}>
-                                            City:
+                                            {t('city')}
                                         </Grid>
                                         <Grid item xs={10}>
                                             {room.city}
                                         </Grid>
                                         <Grid item xs={2}>
-                                            Room number:
+                                            {t('roomNumber')}
                                         </Grid>
                                         <Grid item xs={10}>
                                             {room.roomNumber}
@@ -41,7 +42,7 @@ const RoomDetailsPage = () => {
                                         <Grid item xs={3}>
                                             <Button variant="outlined"
                                                     to={`/rooms/id/${room.id}/update`}
-                                                    component={NavLink}>Update room</Button>
+                                                    component={NavLink}>{t('updateRoom')}</Button>
                                         </Grid>
                                         <Grid item xs={9}>
                                             <DeleteRoom roomId={room.id}/>

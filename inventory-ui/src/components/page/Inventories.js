@@ -4,6 +4,8 @@ import {CircularProgress, Paper, Table, TableBody, TableContainer, TableHead, Ta
 import TableCell, {tableCellClasses} from '@mui/material/TableCell';
 import styled from "@emotion/styled";
 import {NavLink} from "react-router-dom";
+import {useTranslation} from "react-i18next";
+
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -29,6 +31,7 @@ const Inventories = () => {
 
     const [loading, setLoading] = useState(true);
     const [inventories, setInventories] = useState([]);
+    const {t} = useTranslation('inventories');
 
     useEffect(() => {
         getInventories()
@@ -48,16 +51,16 @@ const Inventories = () => {
                         <Table sx={{minWidth: 700}} aria-label="customized table">
                             <TableHead>
                                 <TableRow>
-                                    <StyledTableCell>Inventory number</StyledTableCell>
-                                    <StyledTableCell>Card number</StyledTableCell>
-                                    <StyledTableCell>Description</StyledTableCell>
-                                    <StyledTableCell>Category</StyledTableCell>
-                                    <StyledTableCell>City</StyledTableCell>
-                                    <StyledTableCell>Room number</StyledTableCell>
-                                    <StyledTableCell>Officer</StyledTableCell>
-                                    <StyledTableCell>Employee</StyledTableCell>
-                                    <StyledTableCell align="right">Price at start of use</StyledTableCell>
-                                    <StyledTableCell align="right">Price at end of use</StyledTableCell>
+                                    <StyledTableCell>{t('inventoryNumber')}</StyledTableCell>
+                                    <StyledTableCell>{t('cardNumber')}</StyledTableCell>
+                                    <StyledTableCell>{t('description')}</StyledTableCell>
+                                    <StyledTableCell>{t('category')}</StyledTableCell>
+                                    <StyledTableCell>{t('city')}</StyledTableCell>
+                                    <StyledTableCell>{t('roomNumber')}</StyledTableCell>
+                                    <StyledTableCell>{t('officer')}</StyledTableCell>
+                                    <StyledTableCell>{t('employee')}</StyledTableCell>
+                                    <StyledTableCell align="right">{t('priceAtStart')}</StyledTableCell>
+                                    <StyledTableCell align="right">{t('priceAtEnd')}</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -65,7 +68,7 @@ const Inventories = () => {
                                     <StyledTableRow key={inventory.id}>
                                         <StyledTableCell component="th" scope="row">
                                             <NavLink to={`/inventories/id/${inventory.id}`}>
-                                            {inventory.inventoryNumber}
+                                                {inventory.inventoryNumber}
                                             </NavLink>
                                         </StyledTableCell>
                                         <StyledTableCell>{inventory.cardNumber}</StyledTableCell>

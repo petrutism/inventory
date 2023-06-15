@@ -1,0 +1,55 @@
+{
+  "inventories": {
+    "inventoryNumber": "Inventoriaus numeris",
+    "cardNumber": "Kortelės numeris",
+    "description": "Aprašymas",
+    "category": "Kategorija",
+    "city": "Miestas",
+    "roomNumber": "Kabinetas",
+    "officer": "Atsakingas asmuo",
+    "employee": "Naudotojas",
+    "priceAtStart": "Kaina naudojimo pradžioje",
+    "priceAtEnd": "Kaina naudojimo pabaigoje"
+  },
+  "employees": {
+    "fullName": "Darbuotojo vardas ir pavardė",
+    "city": "Miestas",
+    "roomNumber": "Kabineto numeris"
+  },
+  "officers": {
+    "fullName": "Atsakingo asmens vardas ir pavardė",
+    "city": "Miestas",
+    "roomNumber": "Kabineto numeris"
+  },
+  "rooms": {
+    "city": "Miestas",
+    "roomNumber": "Kabineto numeris"
+  },
+  "employeeDetails": {
+    "city": "Miestas:",
+    "roomNumber": "Kabineto numeris:",
+    "updateEmployee": "REDAGUOTI DARBUOTOJĄ"
+  },
+  "officerDetails": {
+    "city": "Miestas:",
+    "roomNumber": "Kabineto numeris:",
+    "updateOfficer": "REDAGUOTI ATSAKINGĄ ASMENĮ"
+  },
+  "roomDetails": {
+    "city": "Miestas:",
+    "roomNumber": "Kabineto numeris:",
+    "updateRoom": "REDAGUOTI KABINETĄ"
+  },
+  "inventoryDetails": {
+    "inventoryNumber": "Inventoriaus numeris:",
+    "cardNumber": "Kortelės numeris:",
+    "category": "Kategorija:",
+    "city": "Miestas:",
+    "roomNumber": "Kabineto numeris:",
+    "officer": "Atsakingas asmuo:",
+    "employee": "Naudotojas:",
+    "priceAtStart": "Kaina naudojimo pradžioje:",
+    "priceAtEnd": "Kaina pasibaigus naudojimui:",
+    "updateInventory": "REDAGUOTI INVENTORIŲ"
+  }
+}

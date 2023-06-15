@@ -1,0 +1,55 @@
+{
+  "inventories": {
+    "inventoryNumber": "Inventory number",
+    "cardNumber": "Card number",
+    "description": "Description",
+    "category": "Category",
+    "city": "City",
+    "roomNumber": "Room number",
+    "officer": "Officer",
+    "employee": "Employee",
+    "priceAtStart": "Price at start of use",
+    "priceAtEnd": "Price at end of use"
+  },
+  "employees": {
+    "fullName": "Employee full name",
+    "city": "City",
+    "roomNumber": "Room number"
+  },
+  "officers": {
+    "fullName": "Officer full name",
+    "city": "City",
+    "roomNumber": "Room number"
+  },
+  "rooms": {
+    "city": "City",
+    "roomNumber": "Room number"
+  },
+  "employeeDetails": {
+    "city": "City:",
+    "roomNumber": "Room number:",
+    "updateEmployee": "UPDATE EMPLOYEE"
+  },
+  "officerDetails": {
+    "city": "City:",
+    "roomNumber": "Room number:",
+    "updateOfficer": "UPDATE OFFICER"
+  },
+  "roomDetails": {
+    "city": "City:",
+    "roomNumber": "Room number:",
+    "updateRoom": "UPDATE ROOM"
+  },
+  "inventoryDetails": {
+    "inventoryNumber": "Inventory number:",
+    "cardNumber": "Card number:",
+    "category": "Category:",
+    "city": "City:",
+    "roomNumber": "Room number:",
+    "officer": "Officer:",
+    "employee": "Employee:",
+    "priceAtStart": "Price at start of use:",
+    "priceAtEnd": "Price at end of use:",
+    "updateInventory": "UPDATE INVENTORY"
+  }
+}

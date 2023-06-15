@@ -4,6 +4,7 @@ import {CircularProgress, Paper, Table, TableBody, TableContainer, TableHead, Ta
 import TableCell, {tableCellClasses} from '@mui/material/TableCell';
 import styled from "@emotion/styled";
 import {NavLink} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -29,6 +30,7 @@ const Officers = () => {
 
     const [loading, setLoading] = useState(true);
     const [officers, setOfficers] = useState([]);
+    const {t} = useTranslation('officers');
 
     useEffect(() => {
         getOfficers()
@@ -48,9 +50,9 @@ const Officers = () => {
                         <Table sx={{minWidth: 700}} aria-label="customized table">
                             <TableHead>
                                 <TableRow>
-                                    <StyledTableCell>Officer full name</StyledTableCell>
-                                    <StyledTableCell>City</StyledTableCell>
-                                    <StyledTableCell>Room number</StyledTableCell>
+                                    <StyledTableCell>{t('fullName')}</StyledTableCell>
+                                    <StyledTableCell>{t('city')}</StyledTableCell>
+                                    <StyledTableCell>{t('roomNumber')}</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>

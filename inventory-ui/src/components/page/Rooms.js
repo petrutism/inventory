@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import {getRoomNumbers} from "../api/inventoryApi";
 import {CircularProgress, Paper, Table, TableBody, TableContainer, TableHead, TableRow} from "@mui/material";
-import {useParams} from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import TableCell, {tableCellClasses} from '@mui/material/TableCell';
 import styled from "@emotion/styled";
-import {NavLink} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -25,15 +25,17 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
         border: 0,
     },
 }));
+
 const Rooms = () => {
     const {city} = useParams();
     const [loading, setLoading] = useState(true);
-    const [roomNumbers, setRoomNumbers] = useState([]);
+    const [rooms, setRooms] = useState([]);
+    const {t} = useTranslation('rooms');
 
     useEffect(() => {
         getRoomNumbers(city)
             .then(({data}) => {
-                setRoomNumbers(data);
+                setRooms(data);
                 console.log('kabinetai pagal miesta duomenys', data)
             })
             .catch((error) => console.log('klaida', error))
@@ -48,15 +50,19 @@ const Rooms = () => {
                         <Table sx={{minWidth: 700}} aria-label="customized table">
                             <TableHead>
                                 <TableRow>
-                                    <StyledTableCell>City</StyledTableCell>
-                                    <StyledTableCell>Room number</StyledTableCell>
+                                    <StyledTableCell>{t('city')}</StyledTableCell>
+                                    <StyledTableCell>{t('roomNumber')}</StyledTableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {roomNumbers.map((roomNumber) => (
-                                    <StyledTableRow key={roomNumber.id}>
+                                {rooms.map((room) => (
+                                    <StyledTableRow key={room.id}>
                                         <StyledTableCell>{city}</StyledTableCell>
-                                        <StyledTableCell>{roomNumber.roomNumber}</StyledTableCell>
+                                        <StyledTableCell component="th" scope="row">
+                                            <NavLink to={`/rooms/id/${room.id}`}>
+                                                {room.roomNumber}
+                                            </NavLink>
+                                        </StyledTableCell>
                                     </StyledTableRow>
                                 ))}
                             </TableBody>

@@ -3,11 +3,13 @@ import {useEffect, useState} from "react";
 import {getEmployeeById} from "../api/inventoryApi";
 import {Button, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import DeleteEmployee from "../DeleteEmployee";
+import {useTranslation} from "react-i18next";
 
 const EmployeeDetailsPage = () => {
     const {employeeId} = useParams();
     const [loading, setLoading] = useState(true);
     const [employee, setEmployee] = useState({});
+    const {t} = useTranslation('employeeDetails');
 
     useEffect(() => {
         getEmployeeById(employeeId)
@@ -27,13 +29,13 @@ const EmployeeDetailsPage = () => {
                                     <Typography variant="h5">{employee.name} {employee.surname}</Typography>
                                     <Grid container spacing={2} sx={{mt: 2}}>
                                         <Grid item xs={2}>
-                                            City:
+                                            {t('city')}
                                         </Grid>
                                         <Grid item xs={10}>
                                             {employee.room.city}
                                         </Grid>
                                         <Grid item xs={2}>
-                                            Room number:
+                                            {t('roomNumber')}
                                         </Grid>
                                         <Grid item xs={10}>
                                             {employee.room.roomNumber}
@@ -41,7 +43,7 @@ const EmployeeDetailsPage = () => {
                                         <Grid item xs={3}>
                                             <Button variant="outlined"
                                                     to={`/employees/id/${employee.id}/update`}
-                                                    component={NavLink}>Update employee</Button>
+                                                    component={NavLink}>{t('updateEmployee')}</Button>
                                         </Grid>
                                         <Grid item xs={9}>
                                             <DeleteEmployee employeeId={employee.id}/>

@@ -8,6 +8,7 @@ import GroupIcon from '@mui/icons-material/Group';
 import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
 import BusinessIcon from '@mui/icons-material/Business';
 import DomainAddIcon from '@mui/icons-material/DomainAdd';
+import LanguageSwitcher from "../switcher/LanguageSwitcher";
 
 const Header = () => {
 
@@ -25,7 +26,7 @@ const Header = () => {
                             to="/"
                             component={NavLink}
                 >
-                    Inventory
+                    Inventories
                 </Typography>
                 <nav>
                     <Tooltip title="Create inventory">
@@ -70,6 +71,7 @@ const Header = () => {
                 <Button href="#" variant="outlined" sx={{my: 1, mx: 1.5}}>
                     Login
                 </Button>
+                <LanguageSwitcher/>
             </Toolbar>
         </AppBar>
     );
