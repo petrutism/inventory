@@ -43,9 +43,11 @@ public class UserService implements UserDetailsService {
                 .map(User::convert)
                 .orElse(null);
     }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity accountEntity =  userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found...", username)));
+        UserEntity accountEntity = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found...", username)));
 
         return User.convert(accountEntity);
     }
