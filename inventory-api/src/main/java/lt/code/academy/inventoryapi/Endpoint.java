@@ -25,4 +25,5 @@ public interface Endpoint {
     String ROOM_BY_NUMBER_AND_CITY = "/{" + ROOM_NUMBER + "}/{" + CITY + "}";
     String CITIES = "/cities";
     String ROOM_NUMBERS = "/{" + CITY + "}/roomNumbers";
+    String LOGIN = "/login";
 }

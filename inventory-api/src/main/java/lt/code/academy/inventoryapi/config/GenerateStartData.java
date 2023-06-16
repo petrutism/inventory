@@ -8,11 +8,16 @@ import lt.code.academy.inventoryapi.officer.dto.Officer;
 import lt.code.academy.inventoryapi.officer.service.OfficerService;
 import lt.code.academy.inventoryapi.room.dto.Room;
 import lt.code.academy.inventoryapi.room.service.RoomService;
+import lt.code.academy.inventoryapi.user.dto.Role;
+import lt.code.academy.inventoryapi.user.dto.User;
+import lt.code.academy.inventoryapi.user.service.RoleService;
+import lt.code.academy.inventoryapi.user.service.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class GenerateStartData implements CommandLineRunner {
@@ -20,12 +25,16 @@ public class GenerateStartData implements CommandLineRunner {
     private final EmployeeService employeeService;
     private final OfficerService officerService;
     private final InventoryService inventoryService;
+    private final RoleService roleService;
+    private final UserService userService;
 
-    public GenerateStartData(RoomService roomService, EmployeeService employeeService, OfficerService officerService, InventoryService inventoryService) {
+    public GenerateStartData(RoomService roomService, EmployeeService employeeService, OfficerService officerService, InventoryService inventoryService, RoleService roleService, UserService userService) {
         this.roomService = roomService;
         this.employeeService = employeeService;
         this.officerService = officerService;
         this.inventoryService = inventoryService;
+        this.roleService = roleService;
+        this.userService = userService;
     }
 
     @Override
@@ -68,7 +77,6 @@ public class GenerateStartData implements CommandLineRunner {
             room.setCity("Rietavas");
             roomService.createRoom(room);
 
-
             Employee employee1 = new Employee();
             employee1.setName("Mindaugas");
             employee1.setSurname("Petrutis");
@@ -92,6 +100,29 @@ public class GenerateStartData implements CommandLineRunner {
             inventory1.setPriceBefore(BigDecimal.valueOf(1000.00));
             inventory1.setPriceNow(BigDecimal.valueOf(800.00));
             inventoryService.saveInventory(inventory1);
+
+            Role userRole = new Role();
+            userRole.setName("USER");
+            Role adminRole = new Role();
+            adminRole.setName("ADMIN");
+            Role savedUserRole = roleService.saveRole(userRole);
+            Role savedAdminRole = roleService.saveRole(adminRole);
+
+            User user = new User();
+            user.setName("Useris");
+            user.setSurname("Uservavičius");
+            user.setUsername("user");
+            user.setPassword("1122");
+            user.setRoles(Set.of(savedUserRole));
+            User savedUser = userService.saveAccount(user);
+
+            User admin = new User();
+            admin.setName("Adminas");
+            admin.setSurname("Administratorius");
+            admin.setUsername("admin");
+            admin.setPassword("1122");
+            admin.setRoles(Set.of(savedAdminRole, savedUserRole));
+            User savedAdmin = userService.saveAccount(admin);
         }
 
     }
