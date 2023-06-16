@@ -1,7 +1,6 @@
 package lt.code.academy.inventoryapi;
 
 public interface Endpoint {
-    String ROOT = "/api";
     String ROOM_ID = "roomId";
     String ROOM_NUMBER = "roomNumber";
     String CITY = "city";
@@ -11,11 +10,11 @@ public interface Endpoint {
     String OFFICER_ID = "officerId";
     String OFFICER_NAME = "officerName";
     String OFFICER_SURNAME = "officerSurname";
-    String ROOMS = ROOT + "/rooms";
-    String EMPLOYEES = ROOT + "/employees";
-    String OFFICERS = ROOT + "/officers";
+    String ROOMS = "/rooms";
+    String EMPLOYEES = "/employees";
+    String OFFICERS = "/officers";
     String INVENTORY_ID = "inventoryId";
-    String INVENTORIES = ROOT + "/inventories";
+    String INVENTORIES = "/inventories";
     String INVENTORY_BY_ID = "/id/{" + INVENTORY_ID + "}";
     String EMPLOYEE_BY_ID = "/id/{" + EMPLOYEE_ID + "}";
     String EMPLOYEE_BY_FULL_NAME = "/{" + EMPLOYEE_NAME + "}/{" + EMPLOYEE_SURNAME + "}";
