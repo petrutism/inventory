@@ -167,6 +167,7 @@
     "labelPassword": "Slaptažodis",
     "signIn": "Prisijungti",
     "validationUsernameRequired": "Vartotojo vardas yra prievalomas",
-    "validationPasswordRequired": "Slaptažodis yra privalomas"
+    "validationPasswordRequired": "Slaptažodis yra privalomas",
+    "loginFailed": "Prisijungimas nesėkmingas"
   }
 }

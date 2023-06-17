@@ -167,6 +167,7 @@
     "labelPassword": "Password",
     "signIn": "Sign In",
     "validationUsernameIsRequired": "Username is required",
-    "validationPasswordIsRequired": "Password is required"
+    "validationPasswordIsRequired": "Password is required",
+    "loginFailed": "Login failed"
   }
 }

@@ -1,6 +1,7 @@
 import {Form, Formik} from "formik";
 import * as Yup from 'yup'
 import {
+    Alert,
     Avatar,
     Box,
     Button,
@@ -16,12 +17,23 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import FormTextInput from "./FormTextInput";
 import * as React from "react";
 import {useTranslation} from "react-i18next";
+import {login} from "../api/userApi";
+import {useState} from "react";
 
 
 const defaultTheme = createTheme();
 const Login = () => {
+
+    const [showError, setShowError] = useState(false);
+
     const onLogin = (values, helpers) => {
-        console.log(values)
+        login(values)
+            .then(({data}) => console.log('data from login', data))
+            .catch((error) => {
+                console.log(error);
+                setShowError(true);
+            })
+            .finally(() => helpers.setSubmitting(false));
     }
     const {t} = useTranslation('login');
     const loginValidationSchema = Yup.object().shape({
@@ -56,7 +68,7 @@ const Login = () => {
                                 {t('signIn')}
                             </Typography>
                             <Box noValidate sx={{mt: 1}}>
-
+                                {showError && <Alert severity="error">{t('loginFailed')}</Alert>}
                                 <Form>
                                     <FormTextInput
                                         margin="normal"
