@@ -15,6 +15,7 @@ import InventoryDetails from "../page/InventoryDetails";
 import EmployeeDetails from "../page/EmployeeDetails";
 import OfficerDetails from "../page/OfficerDetails";
 import RoomDetails from "../page/RoomDetails";
+import Login from "../forms/Login";
 
 const Content = () => {
     return (
@@ -49,6 +50,8 @@ const Content = () => {
                     <Route path="/rooms/create" element={<Room key="create"/>}/>
                     <Route path="/rooms/id/:roomId/update" element={<Room key="update"/>}/>
                     <Route path="/rooms/id/:roomId" element={<RoomDetails/>}/>
+
+                    <Route path="/login" element={<Login/>}/>
 
                 </Routes>
             </Container>

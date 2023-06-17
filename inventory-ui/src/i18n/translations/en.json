@@ -161,5 +161,12 @@
     "labelEmployeesSurname": "Employees surname",
     "labelPriceBefore": "Price at the start of use",
     "labelPriceNow": "Price at the end of use"
+  },
+  "login": {
+    "labelUsername": "Username",
+    "labelPassword": "Password",
+    "signIn": "Sign In",
+    "validationUsernameIsRequired": "Username is required",
+    "validationPasswordIsRequired": "Password is required"
   }
 }

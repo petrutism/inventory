@@ -161,5 +161,12 @@
     "labelEmployeesSurname": "Darbuotojo pavardė",
     "labelPriceBefore": "Kaina naudojimo pradžioje",
     "labelPriceNow": "Kaina naudojimo pabaigoje"
+  },
+  "login": {
+    "labelUsername": "Vartotojo vardas",
+    "labelPassword": "Slaptažodis",
+    "signIn": "Prisijungti",
+    "validationUsernameRequired": "Vartotojo vardas yra prievalomas",
+    "validationPasswordRequired": "Slaptažodis yra privalomas"
   }
 }

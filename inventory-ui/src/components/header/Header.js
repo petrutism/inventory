@@ -10,6 +10,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import DomainAddIcon from '@mui/icons-material/DomainAdd';
 import LanguageSwitcher from "../switcher/LanguageSwitcher";
 import {useTranslation} from "react-i18next";
+
 const Header = () => {
     const {t} = useTranslation('header');
     return (
@@ -67,7 +68,11 @@ const Header = () => {
                         </IconButton>
                     </Tooltip>
                 </nav>
-                <Button href="#" variant="outlined" sx={{my: 1, mx: 1.5}}>
+                <Button
+                    variant="outlined"
+                    sx={{my: 1, mx: 1.5}}
+                    component={NavLink}
+                    to="/login">
                     {t('login')}
                 </Button>
                 <LanguageSwitcher/>
