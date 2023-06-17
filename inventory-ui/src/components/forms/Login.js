@@ -12,23 +12,32 @@ import {
     ThemeProvider,
     Typography
 } from "@mui/material";
-import TextField from "@mui/material/TextField";
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import FormTextInput from "./FormTextInput";
 import * as React from "react";
 import {useTranslation} from "react-i18next";
 import {login} from "../api/userApi";
 import {useState} from "react";
-
+import {useDispatch} from "react-redux";
+import {addUser} from "../../store/slices/userSlice";
+import {useNavigate} from "react-router-dom";
 
 const defaultTheme = createTheme();
 const Login = () => {
 
     const [showError, setShowError] = useState(false);
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const onLogin = (values, helpers) => {
         login(values)
-            .then(({data}) => console.log('data from login', data))
+            .then(({data, headers}) => {
+                    dispatch(addUser({
+                        user: data,
+                        jwtToken: headers.authorization
+                    }));
+                    navigate('/');
+                }
+            )
             .catch((error) => {
                 console.log(error);
                 setShowError(true);
