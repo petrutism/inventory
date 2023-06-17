@@ -6,6 +6,7 @@ import lt.code.academy.inventoryapi.inventory.dto.Inventory;
 import lt.code.academy.inventoryapi.inventory.service.InventoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,19 +30,20 @@ public class InventoryController {
     public Inventory getInventoryById(@PathVariable(INVENTORY_ID) UUID inventoryId) {
         return inventoryService.getInventoryById(inventoryId);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void createInventory(@RequestBody Inventory inventoryFromForm) {
         inventoryService.createInventory(inventoryFromForm);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = INVENTORY_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateInventory(@RequestBody Inventory inventoryFromForm, @PathVariable(INVENTORY_ID) UUID id) {
         inventoryFromForm.setId(id);
         inventoryService.updateInventory(inventoryFromForm);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = INVENTORY_BY_ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteInventory(@PathVariable(INVENTORY_ID) UUID inventoryId){

@@ -5,6 +5,7 @@ import lt.code.academy.inventoryapi.employee.dto.Employee;
 import lt.code.academy.inventoryapi.employee.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,19 +31,21 @@ public class EmployeeController {
     public Employee getEmployeeByFullName(@PathVariable(EMPLOYEE_NAME) String name, @PathVariable(EMPLOYEE_SURNAME) String surname){
         return employeeService.findEmployeeByNameAndSurname(name, surname);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void createEmployee(@RequestBody Employee employee){
         employeeService.createEmployee(employee);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = EMPLOYEE_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateEmployee(@RequestBody Employee employee, @PathVariable(EMPLOYEE_ID) UUID id){
         employee.setId(id);
         employeeService.updateEmployee(employee);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = EMPLOYEE_BY_ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployee(@PathVariable(EMPLOYEE_ID) UUID employeeId){

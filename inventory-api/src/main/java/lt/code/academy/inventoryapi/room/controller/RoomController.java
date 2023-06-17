@@ -6,6 +6,7 @@ import lt.code.academy.inventoryapi.room.dto.Room;
 import lt.code.academy.inventoryapi.room.service.RoomService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -61,20 +62,20 @@ public class RoomController {
     public Room getRoomByNumberAndCity(@PathVariable(ROOM_NUMBER) String number, @PathVariable(CITY) String city) {
         return roomService.getRoomByNumberAndCity(number, city);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void createRoom(@RequestBody Room room) {
         roomService.createRoom(room);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(value = ROOM_BY_ID, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateRoom(@RequestBody Room room, @PathVariable(ROOM_ID) UUID id) {
         room.setId(id);
         roomService.updateRoom(room);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = ROOM_BY_ID)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteRoom(@PathVariable(ROOM_ID) UUID id) {
