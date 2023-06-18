@@ -73,7 +73,8 @@
     "officers": "Officers",
     "cities": "Cities",
     "createRoom": "Create room",
-    "login": "LOGIN"
+    "login": "LOGIN",
+    "logout": "LOGOUT"
   },
   "employee": {
     "validationNameMin": "Name must be longer than 5",

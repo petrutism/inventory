@@ -1,4 +1,4 @@
-import {AppBar, Button, IconButton, Toolbar, Tooltip, Typography} from "@mui/material";
+import {AppBar, Avatar, Button, IconButton, Toolbar, Tooltip, Typography} from "@mui/material";
 import {NavLink} from "react-router-dom";
 import MenuItem from "./MenuItem";
 import AddBoxIcon from '@mui/icons-material/AddBox';
@@ -10,9 +10,16 @@ import BusinessIcon from '@mui/icons-material/Business';
 import DomainAddIcon from '@mui/icons-material/DomainAdd';
 import LanguageSwitcher from "../switcher/LanguageSwitcher";
 import {useTranslation} from "react-i18next";
+import {useDispatch, useSelector} from "react-redux";
+import {removeUser} from "../../store/slices/userSlice";
 
 const Header = () => {
     const {t} = useTranslation('header');
+    const user = useSelector(state => state.user.user);
+    const dispatch = useDispatch();
+    const onLogout = () => {
+        dispatch(removeUser());
+    }
     return (
         <AppBar
             position="static"
@@ -68,13 +75,22 @@ const Header = () => {
                         </IconButton>
                     </Tooltip>
                 </nav>
-                <Button
-                    variant="outlined"
-                    sx={{my: 1, mx: 1.5}}
-                    component={NavLink}
-                    to="/login">
-                    {t('login')}
-                </Button>
+                {
+                    user ? <Button
+                            variant="outlined"
+                            sx={{my: 1, mx: 1.5}}
+                            onClick={onLogout}>
+                            {t('logout')}
+                        </Button> :
+                        <Button
+                            variant="outlined"
+                            sx={{my: 1, mx: 1.5}}
+                            component={NavLink}
+                            to="/login">
+                            {t('login')}
+                        </Button>
+                }
+
                 <LanguageSwitcher/>
             </Toolbar>
         </AppBar>

@@ -13,12 +13,10 @@ const userSlice = createSlice(
         reducers: {
             addUser(state, {payload: user}) {
                 addToLocalStorage('user', user);
-
                 return user;
             },
             removeUser() {
                 removeFromLocalStorage('user');
-
                 return initialState;
             }
         }
