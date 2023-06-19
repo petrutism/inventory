@@ -9,8 +9,6 @@ import {useEffect, useState} from "react";
 import {getCities, getEmployeeById, getRoomNumbers, getRooms, saveEmployee, updateEmployee} from "../api/inventoryApi";
 import {useParams, useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {useSelector} from "react-redux";
-
 
 const Employee = () => {
     const [notification, setNotification] = useState({isVisible: false});
@@ -42,33 +40,23 @@ const Employee = () => {
         }
     );
 
-
     useEffect(() => {
-
         if (!employeeId) {
-
             return;
         }
-
         getEmployeeById(employeeId)
             .then(({data}) => setEmployee(data))
             .catch((err) => console.log('employee error', err))
             .finally();
-
     }, []);
 
     const onFormSubmit = (values, helper) => {
         values.city = selectedCity;
-
         roomNumbers.forEach(r => {
             if (r.city === selectedCity && r.roomNumber === values.selectedRoom) {
                 values.room = r;
             }
         });
-
-        console.log('employee values', values);
-        console.log('employee helpers', helper);
-
         const employeeFromForm = {
             name: values.name,
             surname: values.surname,
@@ -78,7 +66,6 @@ const Employee = () => {
             onEmployeeUpdate(employeeFromForm, helper);
             return;
         }
-
         onCreateEmployee(employeeFromForm, helper);
     }
     const onCreateEmployee = (employeeFromForm, helper) => {
@@ -109,11 +96,8 @@ const Employee = () => {
             .then(({data}) => {
                 setRoomNumbers(data);
             })
-            .finally(() => {
-                console.log('roomNumbers', roomNumbers);
-            });
+            .finally();
     };
-
     useEffect(() => {
         const citiesFromBackend = [];
         getCities()
@@ -129,7 +113,6 @@ const Employee = () => {
             .catch((error) => console.log('cities error', error))
             .finally(() => {
                 setCitiesLoading(false);
-                console.log('citiesFromBackend', citiesFromBackend);
             });
     }, []);
 
@@ -145,7 +128,6 @@ const Employee = () => {
                             room: employee.room.roomNumber,
                             selectedRoom: ''
                         }}
-
                         onSubmit={onFormSubmit}
                         validationSchema={employeeValidationSchema}
                     >
@@ -177,7 +159,6 @@ const Employee = () => {
                                                 {c.label}
                                             </MenuItem>))}
                                         </Field>
-
                                         <Field
                                             sx={{minWidth: '200px'}}
                                             id="selectedRoom"

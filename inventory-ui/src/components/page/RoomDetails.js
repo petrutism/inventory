@@ -4,10 +4,13 @@ import {getRoomById} from "../api/inventoryApi";
 import {Button, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import DeleteRoom from "../DeleteRoom";
 import {useTranslation} from "react-i18next";
+import {useSelector} from "react-redux";
+
 const RoomDetailsPage = () => {
     const {roomId} = useParams();
     const [loading, setLoading] = useState(true);
     const [room, setRoom] = useState({});
+    const user = useSelector(state => state.user.user);
     const {t} = useTranslation('roomDetails');
 
     useEffect(() => {
@@ -40,12 +43,12 @@ const RoomDetailsPage = () => {
                                             {room.roomNumber}
                                         </Grid>
                                         <Grid item xs={3}>
-                                            <Button variant="outlined"
-                                                    to={`/rooms/id/${room.id}/update`}
-                                                    component={NavLink}>{t('updateRoom')}</Button>
+                                            {user?.roles.includes('ADMIN') && <Button variant="outlined"
+                                                                                      to={`/rooms/id/${room.id}/update`}
+                                                                                      component={NavLink}>{t('updateRoom')}</Button>}
                                         </Grid>
                                         <Grid item xs={9}>
-                                            <DeleteRoom roomId={room.id}/>
+                                            {user?.roles.includes('ADMIN') && <DeleteRoom roomId={room.id}/>}
                                         </Grid>
                                     </Grid>
                                 </Grid>

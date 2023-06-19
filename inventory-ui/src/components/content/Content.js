@@ -30,8 +30,9 @@ const Content = () => {
                            mb: 4
                        }}>
                 <Routes>
-                    <Route path="/" element={<Inventories/>}/>
-
+                    <Route path="/" element={<SecuredRoute roles={['USER']}/>}>
+                        <Route path="/" element={<Inventories/>}/>
+                    </Route>
                     <Route path="/inventories/create" element={<SecuredRoute roles={['ADMIN']}/>}>
                         <Route path="/inventories/create" element={<Inventory key="create"/>}/>
                     </Route>
@@ -53,7 +54,7 @@ const Content = () => {
                     <Route path="/employees/id/:employeeId" element={<SecuredRoute roles={['USER']}/>}>
                         <Route path="/employees/id/:employeeId" element={<EmployeeDetails/>}/>
                     </Route>
-                    <Route path="/officers" element={<SecuredRoute roles={['USERS']}/>}>
+                    <Route path="/officers" element={<SecuredRoute roles={['USER']}/>}>
                         <Route path="/officers" element={<Officers/>}/>
                     </Route>
                     <Route path="/officers/create" element={<SecuredRoute roles={['ADMIN']}/>}>

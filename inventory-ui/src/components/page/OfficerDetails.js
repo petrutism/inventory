@@ -4,9 +4,12 @@ import {getOfficerById} from "../api/inventoryApi";
 import {Button, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import DeleteOfficer from "../DeleteOfficer";
 import {useTranslation} from "react-i18next";
+import {useSelector} from "react-redux";
+
 const OfficerDetailsPage = () => {
     const {officerId} = useParams();
     const [loading, setLoading] = useState(true);
+    const user = useSelector(state => state.user.user);
     const [officer, setOfficer] = useState({});
     const {t} = useTranslation('officerDetails');
 
@@ -40,12 +43,12 @@ const OfficerDetailsPage = () => {
                                             {officer.room.roomNumber}
                                         </Grid>
                                         <Grid item xs={3}>
-                                            <Button variant="outlined"
-                                                    to={`/officers/id/${officer.id}/update`}
-                                                    component={NavLink}>{t('updateOfficer')}</Button>
+                                            {user?.roles.includes('ADMIN') && <Button variant="outlined"
+                                                                                      to={`/officers/id/${officer.id}/update`}
+                                                                                      component={NavLink}>{t('updateOfficer')}</Button>}
                                         </Grid>
                                         <Grid item xs={9}>
-                                            <DeleteOfficer officerId={officer.id}/>
+                                            {user?.roles.includes('ADMIN') && <DeleteOfficer officerId={officer.id}/>}
                                         </Grid>
                                     </Grid>
                                 </Grid>

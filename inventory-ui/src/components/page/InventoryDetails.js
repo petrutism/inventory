@@ -4,10 +4,13 @@ import {getInventoryById} from "../api/inventoryApi";
 import {Button, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import DeleteInventory from "../DeleteInventory";
 import {useTranslation} from "react-i18next";
+import {useSelector} from "react-redux";
+
 const InventoryDetailsPage = () => {
     const {inventoryId} = useParams();
     const [loading, setLoading] = useState(true);
     const [inventory, setInventory] = useState({});
+    const user = useSelector(state => state.user.user);
     const {t} = useTranslation('inventoryDetails');
 
     useEffect(() => {
@@ -83,12 +86,13 @@ const InventoryDetailsPage = () => {
                                         </Grid>
 
                                         <Grid item xs={3}>
-                                            <Button variant="outlined"
-                                                    to={`/inventories/id/${inventory.id}/update`}
-                                                    component={NavLink}>{t('updateInventory')}</Button>
+                                            {user?.roles.includes('ADMIN') && <Button variant="outlined"
+                                                                                      to={`/inventories/id/${inventory.id}/update`}
+                                                                                      component={NavLink}>{t('updateInventory')}</Button>}
                                         </Grid>
                                         <Grid item xs={9}>
-                                            <DeleteInventory inventoryId={inventory.id}/>
+                                            {user?.roles.includes('ADMIN') &&
+                                                <DeleteInventory inventoryId={inventory.id}/>}
                                         </Grid>
                                     </Grid>
                                 </Grid>

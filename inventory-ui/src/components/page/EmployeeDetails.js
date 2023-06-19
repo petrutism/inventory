@@ -4,11 +4,12 @@ import {getEmployeeById} from "../api/inventoryApi";
 import {Button, CircularProgress, Grid, Paper, Typography} from "@mui/material";
 import DeleteEmployee from "../DeleteEmployee";
 import {useTranslation} from "react-i18next";
-
+import {useSelector} from "react-redux";
 const EmployeeDetailsPage = () => {
     const {employeeId} = useParams();
     const [loading, setLoading] = useState(true);
     const [employee, setEmployee] = useState({});
+    const user = useSelector(state => state.user.user);
     const {t} = useTranslation('employeeDetails');
 
     useEffect(() => {
@@ -41,12 +42,12 @@ const EmployeeDetailsPage = () => {
                                             {employee.room.roomNumber}
                                         </Grid>
                                         <Grid item xs={3}>
-                                            <Button variant="outlined"
+                                            {user?.roles.includes('ADMIN') && <Button variant="outlined"
                                                     to={`/employees/id/${employee.id}/update`}
-                                                    component={NavLink}>{t('updateEmployee')}</Button>
+                                                    component={NavLink}>{t('updateEmployee')}</Button>}
                                         </Grid>
                                         <Grid item xs={9}>
-                                            <DeleteEmployee employeeId={employee.id}/>
+                                            {user?.roles.includes('ADMIN') && <DeleteEmployee employeeId={employee.id}/>}
                                         </Grid>
                                     </Grid>
                                 </Grid>
