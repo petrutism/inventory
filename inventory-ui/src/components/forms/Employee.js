@@ -9,6 +9,7 @@ import {useEffect, useState} from "react";
 import {getCities, getEmployeeById, getRoomNumbers, getRooms, saveEmployee, updateEmployee} from "../api/inventoryApi";
 import {useParams, useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {useSelector} from "react-redux";
 
 
 const Employee = () => {
@@ -39,9 +40,11 @@ const Employee = () => {
                 .max(20, t('validationSurnameMax'))
                 .required(t('validationSurnameRequired'))
         }
-    )
+    );
+
 
     useEffect(() => {
+
         if (!employeeId) {
 
             return;

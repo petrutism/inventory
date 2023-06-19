@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import {getRoomById, saveRoom, updateRoom} from "../api/inventoryApi";
 import {useParams, useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {useSelector} from "react-redux";
 
 
 const Room = () => {
@@ -30,9 +31,11 @@ const Room = () => {
                 .positive(t('validationRoomNumberPositive'))
                 .required(t('validationRoomNumberRequired'))
         }
-    )
+    );
+
 
     useEffect(() => {
+
         if (!roomId) {
             setRoomLoading(false);
 

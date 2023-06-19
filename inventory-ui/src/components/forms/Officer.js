@@ -9,6 +9,7 @@ import {useEffect, useState} from "react";
 import {getCities, getOfficerById, getRoomNumbers, getRooms, saveOfficer, updateOfficer} from "../api/inventoryApi";
 import {useParams, useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {useSelector} from "react-redux";
 
 
 const Officer = () => {
@@ -41,9 +42,11 @@ const Officer = () => {
                 .max(20, t('validationSurnameMax'))
                 .required(t('validationSurnameRequired'))
         }
-    )
+    );
+
 
     useEffect(() => {
+
         if (!officerId) {
             setOfficerLoading(false);
 

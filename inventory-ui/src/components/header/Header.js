@@ -1,5 +1,5 @@
 import {AppBar, Avatar, Button, IconButton, Toolbar, Tooltip, Typography} from "@mui/material";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import MenuItem from "./MenuItem";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
@@ -17,8 +17,10 @@ const Header = () => {
     const {t} = useTranslation('header');
     const user = useSelector(state => state.user.user);
     const dispatch = useDispatch();
+    const navigation = useNavigate();
     const onLogout = () => {
         dispatch(removeUser());
+        navigation('/');
     }
     return (
         <AppBar
@@ -37,43 +39,41 @@ const Header = () => {
                     {t('home')}
                 </Typography>
                 <nav>
-                    <Tooltip title={t('createInventory')}>
+                    {user?.roles.includes('ADMIN') && <Tooltip title={t('createInventory')}>
                         <IconButton>
                             <MenuItem path="/inventories/create" value={<AddBoxIcon/>}/>
                         </IconButton>
-                    </Tooltip>
-                    <Tooltip title={t('createEmployee')}>
+                    </Tooltip>}
+                    {user?.roles.includes('ADMIN') && <Tooltip title={t('createEmployee')}>
                         <IconButton>
                             <MenuItem path="/employees/create" value={<PersonAddIcon/>}/>
                         </IconButton>
-                    </Tooltip>
-                    <Tooltip title={t('employees')}>
+                    </Tooltip>}
+                    {user?.roles.includes('USER') && <Tooltip title={t('employees')}>
                         <IconButton>
                             <MenuItem path="/employees" value={<GroupIcon/>}/>
                         </IconButton>
-                    </Tooltip>
-
-                    <Tooltip title={t('createOfficer')}>
+                    </Tooltip>}
+                    {user?.roles.includes('ADMIN') && <Tooltip title={t('createOfficer')}>
                         <IconButton>
                             <MenuItem path="/officers/create" value={<PersonAddAltIcon/>}/>
                         </IconButton>
-                    </Tooltip>
-                    <Tooltip title={t('officers')}>
+                    </Tooltip>}
+                    {user?.roles.includes('USER') &&<Tooltip title={t('officers')}>
                         <IconButton>
                             <MenuItem path="/officers" value={<PeopleOutlineIcon/>}/>
                         </IconButton>
-                    </Tooltip>
-
-                    <Tooltip title={t('cities')}>
+                    </Tooltip>}
+                    {user?.roles.includes('USER') &&<Tooltip title={t('cities')}>
                         <IconButton>
                             <MenuItem path="/cities" value={<BusinessIcon/>}/>
                         </IconButton>
-                    </Tooltip>
-                    <Tooltip title={t('createRoom')}>
+                    </Tooltip>}
+                    {user?.roles.includes('ADMIN') && <Tooltip title={t('createRoom')}>
                         <IconButton>
                             <MenuItem path="/rooms/create" value={<DomainAddIcon/>}/>
                         </IconButton>
-                    </Tooltip>
+                    </Tooltip>}
                 </nav>
                 {
                     user ? <Button

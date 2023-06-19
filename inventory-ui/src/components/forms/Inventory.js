@@ -18,6 +18,7 @@ import {
 } from "../api/inventoryApi";
 import {useNavigate, useParams} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {useSelector} from "react-redux";
 
 const Inventory = () => {
     const [notification, setNotification] = useState({isVisible: false});
@@ -102,7 +103,9 @@ const Inventory = () => {
             .required(t('validationSurnameRequired'))
     });
 
+
     useEffect(() => {
+
         if (!inventoryId) {
             setInventoryLoading(false);
 
